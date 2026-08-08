@@ -24,7 +24,7 @@ class LogReverter extends AbstractService
         }
 
         if ($result && $log->User) {
-            $this->app()->repository('XF:UserAlert')->alert(
+            \XF::app()->repository('XF:UserAlert')->alert(
                 $log->User,
                 \XF::visitor()->user_id,
                 \XF::visitor()->username,
@@ -86,12 +86,12 @@ class LogReverter extends AbstractService
             $log->Node->save();
 
             /** @var \VolkDev\QuickNode\Service\NodePrivacy $privacyService */
-            $privacyService = $this->app()->service('VolkDev\QuickNode:NodePrivacy');
+            $privacyService = \XF::app()->service('VolkDev\QuickNode:NodePrivacy');
 
             if (empty($log->old_data['was_private'])) {
                 $privacyService->makePublic($log->node_id);
                 
-                $db = $this->app()->db();
+                $db = \XF::app()->db();
                 $db->delete('xf_permission_entry_content', 
                     "content_type = 'node' AND content_id = ? AND permission_group_id = 'general' AND permission_id = 'viewNode'", 
                     $log->node_id
@@ -116,7 +116,7 @@ class LogReverter extends AbstractService
                     }
                 }
                 
-                $this->app()->jobManager()->enqueueUnique('permissionRebuild', 'XF:PermissionRebuild');
+                \XF::app()->jobManager()->enqueueUnique('permissionRebuild', 'XF:PermissionRebuild');
             }
             
             $this->closeReport($log->log_id);
@@ -144,12 +144,12 @@ class LogReverter extends AbstractService
             }
 
             if (!empty($oldPerms)) {
-                $updater = $this->app()->service('XF:UpdatePermissions');
+                $updater = \XF::app()->service('XF:UpdatePermissions');
                 $updater->setContent('node', $log->node_id);
                 $updater->setUserGroup($groupId);
                 $updater->updatePermissions($oldPerms);
             } else {
-                $this->app()->jobManager()->enqueueUnique('permissionRebuild', 'XF:PermissionRebuild');
+                \XF::app()->jobManager()->enqueueUnique('permissionRebuild', 'XF:PermissionRebuild');
             }
 
             return true;
@@ -164,7 +164,7 @@ class LogReverter extends AbstractService
             'content_id' => $logId
         ]);
         if ($report && $report->report_state == 'open') {
-            $commenter = $this->app()->service('XF:Report\Commenter', $report);
+            $commenter = \XF::app()->service('XF:Report\Commenter', $report);
             $commenter->setReportState('rejected');
             $commenter->setMessage(\XF::phrase('volkdev_qnc_delete_rejected'));
             $commenter->save();
