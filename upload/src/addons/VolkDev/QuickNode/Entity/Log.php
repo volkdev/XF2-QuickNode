@@ -32,6 +32,7 @@ class Log extends Entity
             'old_data' => ['type' => self::JSON_ARRAY, 'nullable' => true],
             'new_data' => ['type' => self::JSON_ARRAY, 'nullable' => true],
             'log_date' => ['type' => self::UINT, 'default' => \XF::$time],
+            'ip_address' => ['type' => self::BINARY, 'maxLength' => 16, 'nullable' => true, 'default' => null],
         ];
         $structure->relations = [
             'User' => ['entity' => 'XF:User', 'type' => self::TO_ONE, 'conditions' => 'user_id', 'primary' => true],

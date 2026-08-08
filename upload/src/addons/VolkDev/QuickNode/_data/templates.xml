@@ -57,7 +57,10 @@
                 <xf:foreach loop="$logs" value="$log">
                     <xf:datarow>
                         <xf:cell><xf:date time="{$log.log_date}" /></xf:cell>
-                        <xf:cell>{$log.User.username}</xf:cell>
+                        <xf:cell>
+                            <xf:if is="$log.User">{$log.User.username}<xf:else />Гость</xf:if>
+                            <xf:if is="$log.ip_address"><br /><span class="u-muted" style="font-size: 11px;">IP: {{ inet_ntop($log.ip_address) }}</span></xf:if>
+                        </xf:cell>
                         <xf:cell>{$log.action_label}</xf:cell>
                         <xf:cell>
                             <xf:if is="$log.Node">

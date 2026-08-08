@@ -25,6 +25,7 @@ class Setup extends AbstractSetup
             $table->addColumn('old_data', 'mediumblob')->nullable()->comment('JSON предыдущего состояния');
             $table->addColumn('new_data', 'mediumblob')->nullable()->comment('JSON нового состояния');
             $table->addColumn('log_date', 'int')->comment('UNIX timestamp');
+            $table->addColumn('ip_address', 'varbinary', 16)->nullable()->setDefault(null)->comment('IP address of the user');
             $table->addKey('user_id');
             $table->addKey('node_id');
             $table->addKey('log_date');
@@ -43,6 +44,20 @@ class Setup extends AbstractSetup
         $this->installStep2();
     }
 
+    public function upgrade3020070Step1()
+    {
+        $this->schemaManager()->alterTable('xf_volkdev_qnc_log', function (Alter $table) {
+            $table->addColumn('ip_address', 'varbinary', 16)->nullable()->setDefault(null)->comment('IP address of the user');
+        });
+    }
+
+    public function upgrade3020070Step2()
+    {
+        $this->schemaManager()->alterTable('xf_node', function (Alter $table) {
+            $table->addColumn('qnc_pending_delete', 'tinyint')->setDefault(0)->comment('QuickNode pending deletion flag');
+        });
+    }
+
     public function uninstallStep1()
     {
         $this->schemaManager()->dropTable('xf_volkdev_qnc_log');
@@ -52,6 +67,12 @@ class Setup extends AbstractSetup
     {
         $this->schemaManager()->alterTable('xf_user_group', function (Alter $table) {
             $table->dropColumns(['qnc_protected']);
+        });
+    }
+    public function uninstallStep3()
+    {
+        $this->schemaManager()->alterTable('xf_node', function (Alter $table) {
+            $table->dropColumns(['qnc_pending_delete']);
         });
     }
 

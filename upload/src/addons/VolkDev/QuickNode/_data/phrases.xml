@@ -94,4 +94,5 @@
   <phrase title="volkdev_qnc_revert_title" version_id="1010070" version_string="1.1.0"><![CDATA[Подтверждение отката]]></phrase>
   <phrase title="volkdev_qnc_user_not_found" version_id="1010070" version_string="1.1.0"><![CDATA[Пользователь не найден.]]></phrase>
   <phrase title="volkdev_qnc_user_not_specified" version_id="1010070" version_string="1.1.0"><![CDATA[Пользователь не указан.]]></phrase>
+  <phrase title="volkdev_qnc_cannot_give_mod_to_base_groups" version_id="3020070" version_string="3.2.0"><![CDATA[Невозможно выдать права модератора/администратора для группы Гостей или Зарегистрированных. Выберите другую группу.]]></phrase>
 </phrases>

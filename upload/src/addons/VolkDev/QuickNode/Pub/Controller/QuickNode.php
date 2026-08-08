@@ -114,6 +114,7 @@ class QuickNode extends AbstractController
     public function actionSave()
     {
         $this->assertPostOnly();
+        $this->assertRegistrationRequired();
 
         $input = $this->filter([
             'node' => [
@@ -222,6 +223,8 @@ class QuickNode extends AbstractController
 
     public function actionEdit()
     {
+        $this->assertRegistrationRequired();
+
         $nodeId = $this->filter('node_id', 'uint');
         $node = $this->assertRecordExists('XF:Node', $nodeId);
         $this->assertQuickNodeAccess($node->node_id, 'canEditQuickNode');
@@ -339,9 +342,14 @@ class QuickNode extends AbstractController
 
     public function actionDelete()
     {
+        $this->assertRegistrationRequired();
+
         $nodeId = $this->filter('node_id', 'uint');
         $node = $this->assertRecordExists('XF:Node', $nodeId);
         $this->assertQuickNodeAccess($node->node_id, 'canDeleteQuickNode');
+
+        /** @var \VolkDev\QuickNode\Service\NodePrivacy $privacyService */
+        $privacyService = $this->service('VolkDev\QuickNode:NodePrivacy');
 
         if ($this->isPost()) {
             $oldData = $node->toArray();
@@ -354,12 +362,7 @@ class QuickNode extends AbstractController
             /** @var \VolkDev\QuickNode\Service\LogCreator $logCreator */
             $logCreator = $this->service('VolkDev\QuickNode:LogCreator');
 
-            // Для всех (и админов, и обычных юзеров) применяем безопасное скрытие (pending_delete),
-            // чтобы избежать случайного полного удаления вместе с темами с фронтенда.
-            $node->display_in_list = 0;
-            $node->save();
-
-            // Сохраняем текущие права на просмотр перед их удалением
+            // Save current viewNode permissions before making private
             $oldEntries = $this->finder('XF:PermissionEntryContent')
                 ->where('content_type', 'node')
                 ->where('content_id', $node->node_id)
@@ -376,35 +379,13 @@ class QuickNode extends AbstractController
                 ];
             }
             $oldData['view_perms'] = $oldPerms;
+            $oldData['was_private'] = $privacyService->isPrivate($node->node_id);
 
-            $db = $this->app()->db();
-            $db->beginTransaction();
+            // Mark as pending delete and make private
+            $node->qnc_pending_delete = 1;
+            $node->save();
 
-            $db->delete('xf_permission_entry_content', 
-                "content_type = 'node' AND content_id = ? AND permission_group_id = 'general' AND permission_id = 'viewNode'", 
-                $node->node_id
-            );
-
-            $groups = $this->finder('XF:UserGroup')->fetch();
-            $inserts = [];
-            foreach ($groups as $group) {
-                $inserts[] = [
-                    'content_type' => 'node',
-                    'content_id' => $node->node_id,
-                    'user_group_id' => $group->user_group_id,
-                    'user_id' => 0,
-                    'permission_group_id' => 'general',
-                    'permission_id' => 'viewNode',
-                    'permission_value' => 'deny',
-                    'permission_value_int' => 0
-                ];
-            }
-            if ($inserts) {
-                $db->insertBulk('xf_permission_entry_content', $inserts, true);
-            }
-
-            $db->commit();
-            $this->app()->jobManager()->enqueueUnique('permissionRebuild', 'XF:PermissionRebuild');
+            $privacyService->makePrivate($node->node_id);
 
             $logEntity = $logCreator->logAction($visitor->user_id, $nodeId, 'pending_delete', $oldData, null);
 
@@ -426,6 +407,8 @@ class QuickNode extends AbstractController
 
     public function actionPermissions()
     {
+        $this->assertRegistrationRequired();
+
         $nodeId = $this->filter('node_id', 'uint');
         $this->assertQuickNodeAccess($nodeId, 'canManageQuickNodePerms');
         $node = $this->assertRecordExists('XF:Node', $nodeId);
@@ -450,6 +433,8 @@ class QuickNode extends AbstractController
 
     public function actionPermissionsEdit()
     {
+        $this->assertRegistrationRequired();
+
         $nodeId = $this->filter('node_id', 'uint');
         $this->assertQuickNodeAccess($nodeId, 'canManageQuickNodePerms');
         $groupId = $this->filter('user_group_id', 'uint');
@@ -473,6 +458,11 @@ class QuickNode extends AbstractController
                 'is_mod' => 'bool',
                 'is_admin' => 'bool'
             ]);
+
+            // Block moderator/admin permissions for Unregistered (1) and Registered (2) groups
+            if (in_array($groupId, [1, 2]) && ($input['is_mod'] || $input['is_admin'])) {
+                return $this->error(\XF::phrase('volkdev_qnc_cannot_give_mod_to_base_groups'));
+            }
 
             $permissions = [];
 

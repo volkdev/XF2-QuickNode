@@ -26,6 +26,7 @@ class LogCreator extends AbstractService
         $log->old_data = $oldData;
         $log->new_data = $newData;
         $log->log_date = \XF::$time;
+        $log->ip_address = @inet_pton(\XF::app()->request()->getIp());
         $log->save();
 
         return $log;

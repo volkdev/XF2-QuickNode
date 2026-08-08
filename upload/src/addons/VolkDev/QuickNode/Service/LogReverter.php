@@ -81,37 +81,43 @@ class LogReverter extends AbstractService
     protected function revertPendingDelete(Log $log): bool
     {
         if ($log->Node && $log->old_data) {
-            $log->Node->display_in_list = $log->old_data['display_in_list'] ?? 1;
+            // Clear pending delete flag
+            $log->Node->qnc_pending_delete = 0;
             $log->Node->save();
 
-            $db = $this->app()->db();
-            // Удаляем все текущие viewNode права
-            $db->delete('xf_permission_entry_content', 
-                "content_type = 'node' AND content_id = ? AND permission_group_id = 'general' AND permission_id = 'viewNode'", 
-                $log->node_id
-            );
-            
-            // Восстанавливаем оригинальные права
-            if (!empty($log->old_data['view_perms'])) {
-                $inserts = [];
-                foreach ($log->old_data['view_perms'] as $perm) {
-                    $inserts[] = [
-                        'content_type' => 'node',
-                        'content_id' => $log->node_id,
-                        'user_group_id' => $perm['user_group_id'],
-                        'user_id' => $perm['user_id'],
-                        'permission_group_id' => 'general',
-                        'permission_id' => 'viewNode',
-                        'permission_value' => $perm['permission_value'],
-                        'permission_value_int' => 0
-                    ];
-                }
-                if ($inserts) {
-                    $db->insertBulk('xf_permission_entry_content', $inserts, true);
-                }
-            }
+            /** @var \VolkDev\QuickNode\Service\NodePrivacy $privacyService */
+            $privacyService = $this->app()->service('VolkDev\QuickNode:NodePrivacy');
 
-            $this->app()->jobManager()->enqueueUnique('permissionRebuild', 'XF:PermissionRebuild');
+            if (empty($log->old_data['was_private'])) {
+                $privacyService->makePublic($log->node_id);
+                
+                $db = $this->app()->db();
+                $db->delete('xf_permission_entry_content', 
+                    "content_type = 'node' AND content_id = ? AND permission_group_id = 'general' AND permission_id = 'viewNode'", 
+                    $log->node_id
+                );
+                
+                if (!empty($log->old_data['view_perms'])) {
+                    $inserts = [];
+                    foreach ($log->old_data['view_perms'] as $perm) {
+                        $inserts[] = [
+                            'content_type' => 'node',
+                            'content_id' => $log->node_id,
+                            'user_group_id' => $perm['user_group_id'],
+                            'user_id' => $perm['user_id'],
+                            'permission_group_id' => 'general',
+                            'permission_id' => 'viewNode',
+                            'permission_value' => $perm['permission_value'],
+                            'permission_value_int' => 0
+                        ];
+                    }
+                    if ($inserts) {
+                        $db->insertBulk('xf_permission_entry_content', $inserts, true);
+                    }
+                }
+                
+                $this->app()->jobManager()->enqueueUnique('permissionRebuild', 'XF:PermissionRebuild');
+            }
             
             $this->closeReport($log->log_id);
             $log->delete();

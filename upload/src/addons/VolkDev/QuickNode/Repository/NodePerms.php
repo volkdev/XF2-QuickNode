@@ -10,6 +10,13 @@ class NodePerms extends Repository
 {
     public function hasAccess(Entity $entity, $permission = 'canManageQuickNode')
     {
+        $visitor = \XF::visitor();
+
+        // Гости НИКОГДА не должны иметь доступ к управлению разделами
+        if (!$visitor->user_id) {
+            return false;
+        }
+
         if ($entity instanceof Node) {
             $node = $entity;
         } elseif (isset($entity->Node)) {
@@ -17,8 +24,6 @@ class NodePerms extends Repository
         } else {
             return false;
         }
-
-        $visitor = \XF::visitor();
 
         if (!in_array($node->node_type_id, ['Category', 'LinkForum'])) {
             return $visitor->hasNodePermission($node->node_id, $permission);
@@ -42,6 +47,7 @@ class NodePerms extends Repository
         $groupIn = implode(',', array_map('intval', $groupIds));
         $nodeIn = implode(',', array_map('intval', $nodeIds));
 
+        $userCondition = $visitor->user_id > 0 ? "OR user_id = " . $db->quote($visitor->user_id) : "";
         $entries = $db->fetchAll("
             SELECT content_id, permission_value, user_id, user_group_id
             FROM xf_permission_entry_content 
@@ -49,8 +55,8 @@ class NodePerms extends Repository
               AND content_id IN ($nodeIn)
               AND permission_group_id = 'forum' 
               AND permission_id = ? 
-              AND (user_group_id IN ($groupIn) OR user_id = ?)
-        ", [$permission, $visitor->user_id]);
+              AND (user_group_id IN ($groupIn) $userCondition)
+        ", [$permission]);
 
         if (!$entries) {
             return $hasPerm;
