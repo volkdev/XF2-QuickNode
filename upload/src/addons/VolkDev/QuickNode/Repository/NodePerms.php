@@ -13,7 +13,7 @@ class NodePerms extends Repository
         $visitor = \XF::visitor();
 
         // Гости НИКОГДА не должны иметь доступ к управлению разделами
-        if (!$visitor->user_id) {
+        if ($visitor->user_id == 0) {
             return false;
         }
 
