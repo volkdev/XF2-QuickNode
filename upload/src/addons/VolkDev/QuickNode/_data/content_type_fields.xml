@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<content_type_fields>
+  <field content_type="volkdev_qnc_log" field_name="alert_handler_class">VolkDev\QuickNode\Alert\Log</field>
+  <field content_type="volkdev_qnc_log" field_name="entity">VolkDev\QuickNode:Log</field>
+  <field content_type="volkdev_qnc_log" field_name="report_handler_class">VolkDev\QuickNode\Report\QuickNodeLog</field>
+</content_type_fields>

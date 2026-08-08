@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<permissions>
+  <permission permission_group_id="forum" permission_id="canDeleteQuickNode" permission_type="flag" interface_group_id="volkdev_qn" display_order="3"/>
+  <permission permission_group_id="forum" permission_id="canEditQuickNode" permission_type="flag" interface_group_id="volkdev_qn" display_order="2"/>
+  <permission permission_group_id="forum" permission_id="canManageQuickNode" permission_type="flag" interface_group_id="volkdev_qn" display_order="1"/>
+  <permission permission_group_id="forum" permission_id="canManageQuickNodePerms" permission_type="flag" interface_group_id="volkdev_qn" display_order="4"/>
+</permissions>

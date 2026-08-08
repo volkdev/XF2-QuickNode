@@ -1,0 +1,16 @@
+{
+    "legacy_addon_id": "",
+    "title": "[VolkDev] Quick Node Creator",
+    "description": "Allows moderators to create nodes from front-end",
+    "version_id": 3010570,
+    "version_string": "3.1.5",
+    "dev": "VolkDev & kromeshnik",
+    "dev_url": "volkdev.com",
+    "faq_url": "",
+    "support_url": "https://t.me/volkdev_support",
+    "extra_urls": [],
+    "require": {
+        "XF": [2021270, "2.2.12"]
+    },
+    "icon": ""
+}
