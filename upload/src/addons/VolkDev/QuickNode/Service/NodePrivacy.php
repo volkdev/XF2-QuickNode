@@ -33,10 +33,13 @@ class NodePrivacy extends AbstractService
 
         foreach ($specialGroupIds as $spId)
         {
-            $updater = \XF::app()->service('XF:UpdatePermissions');
-            $updater->setContent('node', $nodeId);
-            $updater->setUserGroup($spId);
-            $updater->updatePermissions(['general' => ['viewNode' => 'content_allow']]);
+            $group = $this->em()->find('XF:UserGroup', $spId);
+            if ($group) {
+                $updater = \XF::app()->service('XF:UpdatePermissions');
+                $updater->setContent('node', $nodeId);
+                $updater->setUserGroup($group);
+                $updater->updatePermissions(['general' => ['viewNode' => 'content_allow']]);
+            }
         }
 
         // 3. Allow the creator to see and manage the node using UpdatePermissions
@@ -58,7 +61,7 @@ class NodePrivacy extends AbstractService
 
             $updater = \XF::app()->service('XF:UpdatePermissions');
             $updater->setContent('node', $nodeId);
-            $updater->setUser($visitor->user_id);
+            $updater->setUser($visitor);
             $updater->updatePermissions($creatorPerms);
         }
     }
@@ -89,10 +92,13 @@ class NodePrivacy extends AbstractService
 
         foreach ($specialGroupIds as $spId)
         {
-            $updater = \XF::app()->service('XF:UpdatePermissions');
-            $updater->setContent('node', $nodeId);
-            $updater->setUserGroup($spId);
-            $updater->updatePermissions(['general' => ['viewNode' => 'reset']]);
+            $group = $this->em()->find('XF:UserGroup', $spId);
+            if ($group) {
+                $updater = \XF::app()->service('XF:UpdatePermissions');
+                $updater->setContent('node', $nodeId);
+                $updater->setUserGroup($group);
+                $updater->updatePermissions(['general' => ['viewNode' => 'reset']]);
+            }
         }
     }
 

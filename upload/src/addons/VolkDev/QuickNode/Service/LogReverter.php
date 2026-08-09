@@ -97,9 +97,13 @@ class LogReverter extends AbstractService
                         $updater = \XF::app()->service('XF:UpdatePermissions');
                         $updater->setContent('node', $log->node_id);
                         if ($perm['user_id'] > 0) {
-                            $updater->setUser($perm['user_id']);
+                            $user = $this->em()->find('XF:User', $perm['user_id']);
+                            if (!$user) continue;
+                            $updater->setUser($user);
                         } else {
-                            $updater->setUserGroup($perm['user_group_id']);
+                            $group = $this->em()->find('XF:UserGroup', $perm['user_group_id']);
+                            if (!$group) continue;
+                            $updater->setUserGroup($group);
                         }
                         $updater->updatePermissions(['general' => ['viewNode' => $perm['permission_value']]]);
                     }
@@ -131,10 +135,13 @@ class LogReverter extends AbstractService
             }
 
             if (!empty($oldPerms)) {
-                $updater = \XF::app()->service('XF:UpdatePermissions');
-                $updater->setContent('node', $log->node_id);
-                $updater->setUserGroup($groupId);
-                $updater->updatePermissions($oldPerms);
+                $group = $this->em()->find('XF:UserGroup', $groupId);
+                if ($group) {
+                    $updater = \XF::app()->service('XF:UpdatePermissions');
+                    $updater->setContent('node', $log->node_id);
+                    $updater->setUserGroup($group);
+                    $updater->updatePermissions($oldPerms);
+                }
             } else {
                 // No old perms to restore — the updater call above handles the rebuild;
                 // if there are truly no entries, we still need to purge current ones.
