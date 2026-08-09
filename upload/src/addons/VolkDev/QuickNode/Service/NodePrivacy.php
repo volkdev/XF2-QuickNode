@@ -33,7 +33,7 @@ class NodePrivacy extends AbstractService
 
         foreach ($specialGroupIds as $spId)
         {
-            $updater = $this->app()->service('XF:UpdatePermissions');
+            $updater = \XF::app()->service('XF:UpdatePermissions');
             $updater->setContent('node', $nodeId);
             $updater->setUserGroup($spId);
             $updater->updatePermissions(['general' => ['viewNode' => 'content_allow']]);
@@ -56,7 +56,7 @@ class NodePrivacy extends AbstractService
                 ]
             ];
 
-            $updater = $this->app()->service('XF:UpdatePermissions');
+            $updater = \XF::app()->service('XF:UpdatePermissions');
             $updater->setContent('node', $nodeId);
             $updater->setUser($visitor->user_id);
             $updater->updatePermissions($creatorPerms);
@@ -89,7 +89,7 @@ class NodePrivacy extends AbstractService
 
         foreach ($specialGroupIds as $spId)
         {
-            $updater = $this->app()->service('XF:UpdatePermissions');
+            $updater = \XF::app()->service('XF:UpdatePermissions');
             $updater->setContent('node', $nodeId);
             $updater->setUserGroup($spId);
             $updater->updatePermissions(['general' => ['viewNode' => 'reset']]);

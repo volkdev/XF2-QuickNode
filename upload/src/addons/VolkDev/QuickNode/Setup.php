@@ -15,6 +15,38 @@ class Setup extends AbstractSetup
     use StepRunnerUpgradeTrait;
     use StepRunnerUninstallTrait;
 
+    public function postInstall(array &$stateChanges)
+    {
+        $this->importRussianLanguage();
+    }
+
+    public function postUpgrade($previousVersion, array &$stateChanges)
+    {
+        $this->importRussianLanguage();
+    }
+
+    protected function importRussianLanguage()
+    {
+        // First check if XenForo has a Russian language installed
+        $language = \XF::em()->findOne('XF:Language', ['language_code' => 'ru-RU']);
+        if (!$language) {
+            $language = \XF::em()->findOne('XF:Language', ['language_code' => 'ru']);
+        }
+        
+        if ($language) {
+            $xmlFile = \XF::getAddOnDirectory() . '/VolkDev/QuickNode/_data/language-ru-volkdev_qnc.xml';
+            if (file_exists($xmlFile)) {
+                $document = simplexml_load_file($xmlFile);
+                if ($document) {
+                    /** @var \XF\Service\Language\Import $importService */
+                    $importService = \XF::app()->service('XF:Language\Import');
+                    $importService->setOverwriteLanguage($language);
+                    $importService->importFromXml($document);
+                }
+            }
+        }
+    }
+
     public function installStep1()
     {
         $this->schemaManager()->createTable('xf_volkdev_qnc_log', function (Create $table) {
