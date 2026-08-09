@@ -90,33 +90,20 @@ class LogReverter extends AbstractService
 
             if (empty($log->old_data['was_private'])) {
                 $privacyService->makePublic($log->node_id);
-                
-                $db = \XF::app()->db();
-                $db->delete('xf_permission_entry_content', 
-                    "content_type = 'node' AND content_id = ? AND permission_group_id = 'general' AND permission_id = 'viewNode'", 
-                    $log->node_id
-                );
-                
+
+                // Restore old viewNode permissions using UpdatePermissions
                 if (!empty($log->old_data['view_perms'])) {
-                    $inserts = [];
                     foreach ($log->old_data['view_perms'] as $perm) {
-                        $inserts[] = [
-                            'content_type' => 'node',
-                            'content_id' => $log->node_id,
-                            'user_group_id' => $perm['user_group_id'],
-                            'user_id' => $perm['user_id'],
-                            'permission_group_id' => 'general',
-                            'permission_id' => 'viewNode',
-                            'permission_value' => $perm['permission_value'],
-                            'permission_value_int' => 0
-                        ];
-                    }
-                    if ($inserts) {
-                        $db->insertBulk('xf_permission_entry_content', $inserts, true);
+                        $updater = \XF::app()->service('XF:UpdatePermissions');
+                        $updater->setContent('node', $log->node_id);
+                        if ($perm['user_id'] > 0) {
+                            $updater->setUser($perm['user_id']);
+                        } else {
+                            $updater->setUserGroup($perm['user_group_id']);
+                        }
+                        $updater->updatePermissions(['general' => ['viewNode' => $perm['permission_value']]]);
                     }
                 }
-                
-                \XF::app()->jobManager()->enqueueUnique('permissionRebuild', 'XF:PermissionRebuild');
             }
             
             $this->closeReport($log->log_id);
@@ -149,7 +136,10 @@ class LogReverter extends AbstractService
                 $updater->setUserGroup($groupId);
                 $updater->updatePermissions($oldPerms);
             } else {
-                \XF::app()->jobManager()->enqueueUnique('permissionRebuild', 'XF:PermissionRebuild');
+                // No old perms to restore — the updater call above handles the rebuild;
+                // if there are truly no entries, we still need to purge current ones.
+                // The loop above already deleted them via entity->delete(), which triggers
+                // XF's own cache-dirty marking, so no manual rebuild is needed.
             }
 
             return true;

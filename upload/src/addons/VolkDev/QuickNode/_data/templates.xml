@@ -58,8 +58,8 @@
                     <xf:datarow>
                         <xf:cell><xf:date time="{$log.log_date}" /></xf:cell>
                         <xf:cell>
-                            <xf:if is="$log.User">{$log.User.username}<xf:else />Гость</xf:if>
-                            <xf:if is="$log.ip_address"><br /><span class="u-muted" style="font-size: 11px;">IP: {{ inet_ntop($log.ip_address) }}</span></xf:if>
+                            <xf:if is="$log.User">{$log.User.username}<xf:else />{{ phrase('guest') }}</xf:if>
+                            <xf:if is="$log.ip_address"><br /><span class="u-muted" style="font-size: 11px;">IP: {{ $log.ip_address|ip }}</span></xf:if>
                         </xf:cell>
                         <xf:cell>{$log.action_label}</xf:cell>
                         <xf:cell>
@@ -146,7 +146,7 @@
         <div class="block-body">
             <xf:foreach loop="$log.old_data" key="$key" value="$val">
                 <xf:formrow label="{$key}">
-                    <xf:if is="is_array($val)">{{ json_encode($val) }}<xf:else />{$val}</xf:if>
+                    <xf:if is="is_array($val)">{{ $val|json }}<xf:else />{$val}</xf:if>
                 </xf:formrow>
             </xf:foreach>
         </div>
@@ -161,7 +161,7 @@
         <div class="block-body">
             <xf:foreach loop="$log.new_data" key="$key" value="$val">
                 <xf:formrow label="{$key}">
-                    <xf:if is="is_array($val)">{{ json_encode($val) }}<xf:else />{$val}</xf:if>
+                    <xf:if is="is_array($val)">{{ $val|json }}<xf:else />{$val}</xf:if>
                 </xf:formrow>
             </xf:foreach>
         </div>
@@ -185,16 +185,16 @@
         <xf:button href="{{ base_url('admin.php?qnc-logs') }}" class="button--small" icon="list">{{ phrase('volkdev_qnc_log_goto_report') }}</xf:button>
     </div>
 </div>]]></template>
-  <template type="public" title="volkdev_qn_delete" version_id="1010070" version_string="1.1.0"><![CDATA[<xf:title>Удалить: {$node.title}</xf:title>
+  <template type="public" title="volkdev_qn_delete" version_id="1010070" version_string="1.1.0"><![CDATA[<xf:title>{{ phrase('volkdev_qnc_delete_title', {'title': $node.title}) }}</xf:title>
 <xf:form action="{{ link('quick-node/delete', null, {'node_id': $node.node_id}) }}" ajax="true" class="block">
     <div class="block-container">
         <div class="block-body">
-            <xf:inforow>Вы уверены, что хотите удалить этот раздел? Все подразделы и темы внутри него также будут удалены.</xf:inforow>
+            <xf:inforow>{{ phrase('volkdev_qnc_delete_confirm_info') }}</xf:inforow>
         </div>
-        <xf:submitrow submit="Удалить" icon="delete" />
+        <xf:submitrow submit="{{ phrase('delete') }}" icon="delete" />
     </div>
 </xf:form>]]></template>
-  <template type="public" title="volkdev_qn_edit" version_id="1010070" version_string="1.1.0"><![CDATA[<xf:title>Редактировать: {$node.title}</xf:title>
+  <template type="public" title="volkdev_qn_edit" version_id="1010070" version_string="1.1.0"><![CDATA[<xf:title>{{ phrase('volkdev_qnc_edit_title', {'title': $node.title}) }}</xf:title>
 <xf:form action="{{ link('quick-node/edit', null, {'node_id': $node.node_id}) }}" ajax="true" class="block">
     <div class="block-container">
         <div class="block-body">
@@ -238,10 +238,10 @@
                 </xf:if>
             </xf:if>
         </div>
-        <xf:submitrow submit="Сохранить" icon="save" />
+        <xf:submitrow submit="{{ phrase('save') }}" icon="save" />
     </div>
 </xf:form>]]></template>
-  <template type="public" title="volkdev_qn_index" version_id="1010070" version_string="1.1.0"><![CDATA[<xf:title>Быстрое создание раздела</xf:title>
+  <template type="public" title="volkdev_qn_index" version_id="1010070" version_string="1.1.0"><![CDATA[<xf:title>{{ phrase('volkdev_qnc_create_node_title') }}</xf:title>
 
 <xf:form action="{{ link('quick-node/save') }}" ajax="true" class="block">
 	<xf:hiddenval name="node[parent_node_id]" value="{$parentNodeId}" />
@@ -297,16 +297,8 @@
                 <xf:option name="is_private" value="1" label="{{ phrase('volkdev_qnc_private_node') }}" explain="{{ phrase('volkdev_qnc_private_node_explain') }}" />
             </xf:checkboxrow>
 
-            <xf:if is="$factionTemplates is not empty">
-                <xf:selectrow name="faction_template_id" label="Шаблон прав фракции" explain="Если выбран шаблон, для подраздела будет автоматически создана группа фракции с указанными правами.">
-                    <xf:option value="0">Не применять шаблон (ручная настройка)</xf:option>
-                    <xf:foreach loop="$factionTemplates" value="$template">
-                        <xf:option value="{$template.template_id}">{$template.title}</xf:option>
-                    </xf:foreach>
-                </xf:selectrow>
-            </xf:if>
         </div>
-        <xf:submitrow submit="Создать" icon="save" />
+        <xf:submitrow submit="{{ phrase('create') }}" icon="save" />
     </div>
 </xf:form>]]></template>
   <template type="public" title="volkdev_qn_moderator_remove" version_id="1010070" version_string="1.2.0"><![CDATA[<xf:title>{{ phrase('volkdev_qnc_remove_moderator') }}: {$moderator.username}</xf:title>
@@ -347,38 +339,38 @@
         </div>
     </div>
 </div>]]></template>
-  <template type="public" title="volkdev_qn_permissions_edit" version_id="1010070" version_string="1.1.0"><![CDATA[<xf:title>Настройка прав: {$userGroup.title}</xf:title>
+  <template type="public" title="volkdev_qn_permissions_edit" version_id="1010070" version_string="1.1.0"><![CDATA[<xf:title>{{ phrase('volkdev_qnc_permissions_edit_title', {'title': $userGroup.title}) }}</xf:title>
 
 <xf:form action="{{ link('quick-node/permissions/edit', null, {'node_id': $node.node_id, 'user_group_id': $userGroup.user_group_id}) }}" ajax="true" class="block">
     <div class="block-container">
         <div class="block-body">
             
-            <xf:radiorow name="view" label="Просмотр раздела">
-                <xf:option value="content_allow" selected="$viewState == 'content_allow'">Да (Разрешить)</xf:option>
-                <xf:option value="reset" selected="$viewState == 'reset'">Нет (Наследовать)</xf:option>
-                <xf:option value="deny" selected="$viewState == 'deny'">Никогда (Жесткий запрет)</xf:option>
-                <xf:explain>Может ли группа видеть этот раздел и его содержимое.</xf:explain>
+            <xf:radiorow name="view" label="{{ phrase('volkdev_qnc_perm_view') }}">
+                <xf:option value="content_allow" selected="$viewState == 'content_allow'">{{ phrase('volkdev_qnc_perm_allow') }}</xf:option>
+                <xf:option value="reset" selected="$viewState == 'reset'">{{ phrase('volkdev_qnc_perm_reset') }}</xf:option>
+                <xf:option value="deny" selected="$viewState == 'deny'">{{ phrase('volkdev_qnc_perm_deny') }}</xf:option>
+                <xf:explain>{{ phrase('volkdev_qnc_perm_view_explain') }}</xf:explain>
             </xf:radiorow>
 
-            <xf:radiorow name="post" label="Создание сообщений">
-                <xf:option value="content_allow" selected="$postState == 'content_allow'">Да (Разрешить)</xf:option>
-                <xf:option value="reset" selected="$postState == 'reset'">Нет (Наследовать)</xf:option>
-                <xf:option value="deny" selected="$postState == 'deny'">Никогда (Жесткий запрет)</xf:option>
-                <xf:explain>Может ли группа создавать темы и писать ответы.</xf:explain>
+            <xf:radiorow name="post" label="{{ phrase('volkdev_qnc_perm_post') }}">
+                <xf:option value="content_allow" selected="$postState == 'content_allow'">{{ phrase('volkdev_qnc_perm_allow') }}</xf:option>
+                <xf:option value="reset" selected="$postState == 'reset'">{{ phrase('volkdev_qnc_perm_reset') }}</xf:option>
+                <xf:option value="deny" selected="$postState == 'deny'">{{ phrase('volkdev_qnc_perm_deny') }}</xf:option>
+                <xf:explain>{{ phrase('volkdev_qnc_perm_post_explain') }}</xf:explain>
             </xf:radiorow>
 
             <hr class="formRowSep" />
 
-            <xf:checkboxrow label="Управление (Модерация)">
-                <xf:option name="is_mod" checked="{$isMod}" label="Права Модератора" hint="Удаление (мягкое), перемещение, закрепление, открытие/закрытие тем." />
-                <xf:option name="is_admin" checked="{$isAdmin}" label="Права Администратора" hint="Все права модератора + выдача предупреждений и редактирование чужих сообщений." />
+            <xf:checkboxrow label="{{ phrase('volkdev_qnc_perm_moderation') }}">
+                <xf:option name="is_mod" checked="{$isMod}" label="{{ phrase('volkdev_qnc_perm_moderator') }}" hint="{{ phrase('volkdev_qnc_perm_moderator_hint') }}" />
+                <xf:option name="is_admin" checked="{$isAdmin}" label="{{ phrase('volkdev_qnc_perm_administrator') }}" hint="{{ phrase('volkdev_qnc_perm_administrator_hint') }}" />
             </xf:checkboxrow>
 
         </div>
-        <xf:submitrow submit="Сохранить права" icon="save" />
+        <xf:submitrow submit="{{ phrase('save_permissions') }}" icon="save" />
     </div>
 </xf:form>]]></template>
-  <template type="public" title="volkdev_qn_permissions_list" version_id="1010070" version_string="1.1.0"><![CDATA[<xf:title>Управление правами: {$node.title}</xf:title>
+  <template type="public" title="volkdev_qn_permissions_list" version_id="1010070" version_string="1.1.0"><![CDATA[<xf:title>{{ phrase('volkdev_qnc_permissions_list_title', {'title': $node.title}) }}</xf:title>
 
 <div class="block">
     <div class="block-container">
@@ -387,12 +379,12 @@
                 <xf:foreach loop="$groups" value="$group">
                     <xf:formrow rowclass="formRow--button" label="{$group.title}">
                         <xf:button href="{{ link('quick-node/permissions/edit', null, {'node_id': $node.node_id, 'user_group_id': $group.user_group_id}) }}" class="button--link">
-                            Настроить права
+                            {{ phrase('volkdev_qnc_configure_permissions') }}
                         </xf:button>
                     </xf:formrow>
                 </xf:foreach>
             <xf:else />
-                <div class="block-row">Нет доступных групп для управления.</div>
+                <div class="block-row">{{ phrase('volkdev_qnc_no_groups_available') }}</div>
             </xf:if>
         </div>
     </div>

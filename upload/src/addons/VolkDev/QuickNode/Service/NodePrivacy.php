@@ -7,75 +7,65 @@ class NodePrivacy extends AbstractService
 {
     public function makePrivate(int $nodeId): void
     {
+        $visitor = \XF::visitor();
+
+        // 1. Global reset for everyone — hide by default via UpdatePermissions with user_group_id = 0
+        // We use UpdatePermissions service for the special allowed groups and creator,
+        // but the "global reset" entry (group_id=0, user_id=0) must be inserted directly
+        // since XF:UpdatePermissions doesn't support the wildcard group 0 entry.
         $db = \XF::db();
-        
-        // 1. Global reset (hide from everyone by default)
         $db->insert('xf_permission_entry_content', [
-            'content_type' => 'node',
-            'content_id' => $nodeId,
-            'user_group_id' => 0,
-            'user_id' => 0,
-            'permission_group_id' => 'general',
-            'permission_id' => 'viewNode',
-            'permission_value' => 'reset',
+            'content_type'       => 'node',
+            'content_id'         => $nodeId,
+            'user_group_id'      => 0,
+            'user_id'            => 0,
+            'permission_group_id'=> 'general',
+            'permission_id'      => 'viewNode',
+            'permission_value'   => 'reset',
             'permission_value_int' => 0
         ], false, 'permission_value = VALUES(permission_value), permission_value_int = VALUES(permission_value_int)');
 
-        // 2. Allow special groups (anti-hide)
-        $specialGroupsRaw = \XF::options()->qnc_private_allowed_groups ?? '';
-        $specialGroupIds = array_filter(array_map('intval', explode(',', $specialGroupsRaw)));
+        // 2. Allow special groups (anti-hide) using UpdatePermissions
+        $specialGroupsRaw = \XF::options()->qnc_private_allowed_groups ?? [];
+        $specialGroupIds = is_array($specialGroupsRaw)
+            ? array_filter(array_map('intval', $specialGroupsRaw))
+            : array_filter(array_map('intval', explode(',', (string)$specialGroupsRaw)));
 
-        foreach ($specialGroupIds as $spId) {
-            $db->insert('xf_permission_entry_content', [
-                'content_type' => 'node',
-                'content_id' => $nodeId,
-                'user_group_id' => $spId,
-                'user_id' => 0,
-                'permission_group_id' => 'general',
-                'permission_id' => 'viewNode',
-                'permission_value' => 'content_allow',
-                'permission_value_int' => 0
-            ], false, 'permission_value = VALUES(permission_value), permission_value_int = VALUES(permission_value_int)');
+        foreach ($specialGroupIds as $spId)
+        {
+            $updater = $this->app()->service('XF:UpdatePermissions');
+            $updater->setContent('node', $nodeId);
+            $updater->setUserGroup($spId);
+            $updater->updatePermissions(['general' => ['viewNode' => 'content_allow']]);
         }
 
-        // 3. Allow the creator to see and manage the node
-        $visitor = \XF::visitor();
-        if ($visitor->user_id) {
+        // 3. Allow the creator to see and manage the node using UpdatePermissions
+        if ($visitor->user_id)
+        {
             $creatorPerms = [
-                ['general', 'viewNode', 'content_allow'],
-                ['forum', 'editAnyPost', 'content_allow'],
-                ['forum', 'deleteAnyPost', 'content_allow'],
-                ['forum', 'deleteAnyThread', 'content_allow'],
-                ['forum', 'manageAnyThread', 'content_allow'],
-                ['forum', 'lockUnlockThread', 'content_allow'],
-                ['forum', 'stickUnstickThread', 'content_allow'],
-                ['forum', 'warn', 'content_allow'],
-                ['forum', 'approveUnapprove', 'content_allow'],
+                'general' => ['viewNode' => 'content_allow'],
+                'forum'   => [
+                    'editAnyPost'      => 'content_allow',
+                    'deleteAnyPost'    => 'content_allow',
+                    'deleteAnyThread'  => 'content_allow',
+                    'manageAnyThread'  => 'content_allow',
+                    'lockUnlockThread' => 'content_allow',
+                    'stickUnstickThread' => 'content_allow',
+                    'warn'             => 'content_allow',
+                    'approveUnapprove' => 'content_allow',
+                ]
             ];
-            
-            $inserts = [];
-            foreach ($creatorPerms as [$groupId, $permId, $value]) {
-                $inserts[] = [
-                    'content_type' => 'node',
-                    'content_id' => $nodeId,
-                    'user_group_id' => 0,
-                    'user_id' => $visitor->user_id,
-                    'permission_group_id' => $groupId,
-                    'permission_id' => $permId,
-                    'permission_value' => $value,
-                    'permission_value_int' => 0
-                ];
-            }
-            $db->insertBulk('xf_permission_entry_content', $inserts, false,
-                'permission_value = VALUES(permission_value), permission_value_int = VALUES(permission_value_int)');
+
+            $updater = $this->app()->service('XF:UpdatePermissions');
+            $updater->setContent('node', $nodeId);
+            $updater->setUser($visitor->user_id);
+            $updater->updatePermissions($creatorPerms);
         }
-        
-        // Single async permission rebuild
-        \XF::app()->jobManager()->enqueueUnique('permissionRebuild', 'XF:PermissionRebuild');
     }
 
     public function makePublic(int $nodeId): void
     {
+        // Remove the global "reset" entry that hides the node
         $resetEntry = $this->finder('XF:PermissionEntryContent')
             ->where('content_type', 'node')
             ->where('content_id', $nodeId)
@@ -86,30 +76,24 @@ class NodePrivacy extends AbstractService
             ->where('permission_value', 'reset')
             ->fetchOne();
 
-        if ($resetEntry) {
+        if ($resetEntry)
+        {
             $resetEntry->delete();
         }
 
-        $specialGroupsRaw = \XF::options()->qnc_private_allowed_groups ?? '';
-        $specialGroupIds = array_filter(array_map('intval', explode(',', $specialGroupsRaw)));
+        // Remove the allowed-group entries via UpdatePermissions (set to reset)
+        $specialGroupsRaw = \XF::options()->qnc_private_allowed_groups ?? [];
+        $specialGroupIds = is_array($specialGroupsRaw)
+            ? array_filter(array_map('intval', $specialGroupsRaw))
+            : array_filter(array_map('intval', explode(',', (string)$specialGroupsRaw)));
 
-        if (!empty($specialGroupIds)) {
-            $allowEntries = $this->finder('XF:PermissionEntryContent')
-                ->where('content_type', 'node')
-                ->where('content_id', $nodeId)
-                ->where('user_group_id', $specialGroupIds)
-                ->where('user_id', 0)
-                ->where('permission_group_id', 'general')
-                ->where('permission_id', 'viewNode')
-                ->where('permission_value', 'content_allow')
-                ->fetch();
-
-            foreach ($allowEntries as $entry) {
-                $entry->delete();
-            }
+        foreach ($specialGroupIds as $spId)
+        {
+            $updater = $this->app()->service('XF:UpdatePermissions');
+            $updater->setContent('node', $nodeId);
+            $updater->setUserGroup($spId);
+            $updater->updatePermissions(['general' => ['viewNode' => 'reset']]);
         }
-        
-        \XF::app()->jobManager()->enqueueUnique('permissionRebuild', 'XF:PermissionRebuild');
     }
 
     public function isPrivate(int $nodeId): bool

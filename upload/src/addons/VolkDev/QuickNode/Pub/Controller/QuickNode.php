@@ -28,29 +28,6 @@ class QuickNode extends AbstractController
         }
     }
 
-    protected function getVisitorAllowedTags(): array
-    {
-        $visitor = \XF::visitor();
-        $tags = [];
-        
-        $groupRepo = $this->repository('XF:UserGroup');
-        $allGroups = $groupRepo->findUserGroupsForList()->fetch();
-        
-        foreach ($allGroups as $group) {
-            if (method_exists($group, 'getAllowedFactionTags')) {
-                if ($visitor->isMemberOf($group->user_group_id)) {
-                    $groupTags = $group->getAllowedFactionTags();
-                    foreach ($groupTags as $tag) {
-                        if ($tag) {
-                            $tags[] = $tag;
-                        }
-                    }
-                }
-            }
-        }
-        
-        return array_unique($tags);
-    }
 
     public function actionIndex(ParameterBag $params)
     {
@@ -71,43 +48,11 @@ class QuickNode extends AbstractController
         $prefixRepo = $this->repository('XF:ThreadPrefix');
         $prefixListData = $prefixRepo->getPrefixListData();
 
-        $factionTemplates = [];
-        $factionPrefix = '';
-        if ($parentNodeId) {
-            $parentNode = $this->assertRecordExists('XF:Node', $parentNodeId);
-            $parts = explode(':', $parentNode->title, 2);
-            $factionPrefix = '';
-            if (count($parts) === 2) {
-                $factionPrefix = trim($parts[0]);
-            } else {
-                $breadcrumbs = $parentNode->breadcrumb_data;
-                if ($breadcrumbs) {
-                    $breadcrumbs = array_reverse($breadcrumbs);
-                    foreach ($breadcrumbs as $crumb) {
-                        $parts = explode(':', $crumb['title'], 2);
-                        if (count($parts) === 2) {
-                            $factionPrefix = trim($parts[0]);
-                            break;
-                        }
-                    }
-                }
-            }
-            
-            $allowedTags = $this->getVisitorAllowedTags();
-            if ($factionPrefix && in_array($factionPrefix, $allowedTags)) {
-                $factionTemplates = $this->finder('VolkDev\FactionManager:PermissionTemplate')
-                    ->order('display_order', 'ASC')
-                    ->fetch();
-            }
-        }
-
         return $this->view('VolkDev\QuickNode:QuickNode\Index', 'volkdev_qn_index', [
             'parentNodeId' => $parentNodeId,
             'nodeOptions' => $nodeOptions,
             'prefixGroups' => $prefixListData['prefixGroups'],
             'prefixesGrouped' => $prefixListData['prefixesGrouped'],
-            'factionTemplates' => $factionTemplates,
-            'factionPrefix' => $factionPrefix
         ]);
     }
 
@@ -165,47 +110,6 @@ class QuickNode extends AbstractController
             /** @var \VolkDev\QuickNode\Service\NodePrivacy $privacyService */
             $privacyService = $this->service('VolkDev\QuickNode:NodePrivacy');
             $privacyService->makePrivate($node->node_id);
-        }
-
-        // Faction Manager Group and Permissions Creation
-        $parentNode = $this->assertRecordExists('XF:Node', $input['node']['parent_node_id']);
-        $parts = explode(':', $parentNode->title, 2);
-        $factionPrefix = '';
-        if (count($parts) === 2) {
-            $factionPrefix = trim($parts[0]);
-        } else {
-            $breadcrumbs = $parentNode->breadcrumb_data;
-            if ($breadcrumbs) {
-                $breadcrumbs = array_reverse($breadcrumbs);
-                foreach ($breadcrumbs as $crumb) {
-                    $parts = explode(':', $crumb['title'], 2);
-                    if (count($parts) === 2) {
-                        $factionPrefix = trim($parts[0]);
-                        break;
-                    }
-                }
-            }
-        }
-        
-        $allowedTags = $this->getVisitorAllowedTags();
-        $factionTemplateId = $this->filter('faction_template_id', 'uint');
-        
-        if ($factionTemplateId && $factionPrefix && in_array($factionPrefix, $allowedTags)) {
-            $template = $this->em()->find('VolkDev\FactionManager:PermissionTemplate', $factionTemplateId);
-            if ($template) {
-                // 1. Create group
-                /** @var \VolkDev\FactionManager\Service\FactionGroupCreator $creator */
-                $creator = $this->app()->service('VolkDev\FactionManager:FactionGroupCreator', $factionPrefix, $node->title);
-                $newGroup = $creator->create();
-                
-                // (GroupModerator integration removed for now)
-                
-                // 3. Set node permissions
-                $updater = $this->service('XF:UpdatePermissions');
-                $updater->setContent('node', $node->node_id);
-                $updater->setUserGroup($newGroup);
-                $updater->updatePermissions($template->permissions);
-            }
         }
 
         $newData = $node->toArray();

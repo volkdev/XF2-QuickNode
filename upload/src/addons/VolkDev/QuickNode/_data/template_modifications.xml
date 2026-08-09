@@ -12,13 +12,13 @@
     <find><![CDATA[/(<div class="block-outer">.*?<div class="buttonGroup">)(.*?<xf:contentcheck>)/is]]></find>
     <replace><![CDATA[$1
     <xf:if is="$xf.app.em.getRepository('VolkDev\QuickNode:NodePerms').hasAccess($category, 'canEditQuickNode')">
-        <xf:button href="{{ link('quick-node/edit', null, {'node_id': $category.node_id}) }}" class="button--link" overlay="true" icon="edit">Редактировать</xf:button>
+        <xf:button href="{{ link('quick-node/edit', null, {'node_id': $category.node_id}) }}" class="button--link" overlay="true" icon="edit">{{ phrase('edit') }}</xf:button>
     </xf:if>
     <xf:if is="$xf.app.em.getRepository('VolkDev\QuickNode:NodePerms').hasAccess($category, 'canDeleteQuickNode')">
-        <xf:button href="{{ link('quick-node/delete', null, {'node_id': $category.node_id}) }}" class="button--link" overlay="true" icon="delete">Удалить</xf:button>
+        <xf:button href="{{ link('quick-node/delete', null, {'node_id': $category.node_id}) }}" class="button--link" overlay="true" icon="delete">{{ phrase('delete') }}</xf:button>
     </xf:if>
     <xf:if is="$xf.app.em.getRepository('VolkDev\QuickNode:NodePerms').hasAccess($category, 'canManageQuickNode')">
-        <xf:button href="{{ link('quick-node/index', null, {'parent_node_id': $category.node_id}) }}" class="button--link" overlay="true" icon="add">Создать подраздел</xf:button>
+        <xf:button href="{{ link('quick-node/index', null, {'parent_node_id': $category.node_id}) }}" class="button--link" overlay="true" icon="add">{{ phrase('volkdev_qnc_create_subnode') }}</xf:button>
     </xf:if>
     <xf:if is="$xf.app.em.getRepository('VolkDev\QuickNode:NodePerms').hasAccess($category, 'canManageQuickNodePerms')">
         <xf:button href="{{ link('quick-node/permissions', null, {'node_id': $category.node_id}) }}" class="button--link" overlay="true" icon="settings">{{ phrase('volkdev_qnc_permissions_btn') }}</xf:button>
@@ -32,13 +32,13 @@ $2]]></replace>
         <div class="block-outer-opposite">
             <div class="buttonGroup">
                 <xf:if is="$xf.app.em.getRepository('VolkDev\QuickNode:NodePerms').hasAccess($category, 'canEditQuickNode')">
-                    <xf:button href="{{ link('quick-node/edit', null, {'node_id': $category.node_id}) }}" class="button--link" overlay="true" icon="edit">Редактировать</xf:button>
+                    <xf:button href="{{ link('quick-node/edit', null, {'node_id': $category.node_id}) }}" class="button--link" overlay="true" icon="edit">{{ phrase('edit') }}</xf:button>
                 </xf:if>
                 <xf:if is="$xf.app.em.getRepository('VolkDev\QuickNode:NodePerms').hasAccess($category, 'canDeleteQuickNode')">
-                    <xf:button href="{{ link('quick-node/delete', null, {'node_id': $category.node_id}) }}" class="button--link" overlay="true" icon="delete">Удалить</xf:button>
+                    <xf:button href="{{ link('quick-node/delete', null, {'node_id': $category.node_id}) }}" class="button--link" overlay="true" icon="delete">{{ phrase('delete') }}</xf:button>
                 </xf:if>
                 <xf:if is="$xf.app.em.getRepository('VolkDev\QuickNode:NodePerms').hasAccess($category, 'canManageQuickNode')">
-                    <xf:button href="{{ link('quick-node/index', null, {'parent_node_id': $category.node_id}) }}" class="button--link" overlay="true" icon="add">Создать подраздел</xf:button>
+                    <xf:button href="{{ link('quick-node/index', null, {'parent_node_id': $category.node_id}) }}" class="button--link" overlay="true" icon="add">{{ phrase('volkdev_qnc_create_subnode') }}</xf:button>
                 </xf:if>
                 <xf:if is="$xf.app.em.getRepository('VolkDev\QuickNode:NodePerms').hasAccess($category, 'canManageQuickNodePerms')">
                     <xf:button href="{{ link('quick-node/permissions', null, {'node_id': $category.node_id}) }}" class="button--link" overlay="true" icon="settings">{{ phrase('volkdev_qnc_permissions_btn') }}</xf:button>
@@ -52,13 +52,13 @@ $2]]></replace>
     <find><![CDATA[/(<div class="block-outer">.*?<div class="buttonGroup">\s*<xf:contentcheck>)/is]]></find>
     <replace><![CDATA[$1
     <xf:if is="$xf.app.em.getRepository('VolkDev\QuickNode:NodePerms').hasAccess($forum, 'canEditQuickNode')">
-        <xf:button href="{{ link('quick-node/edit', null, {'node_id': $forum.node_id}) }}" class="button--link" overlay="true" icon="edit">Редактировать</xf:button>
+        <xf:button href="{{ link('quick-node/edit', null, {'node_id': $forum.node_id}) }}" class="button--link" overlay="true" icon="edit">{{ phrase('edit') }}</xf:button>
     </xf:if>
     <xf:if is="$xf.app.em.getRepository('VolkDev\QuickNode:NodePerms').hasAccess($forum, 'canDeleteQuickNode')">
-        <xf:button href="{{ link('quick-node/delete', null, {'node_id': $forum.node_id}) }}" class="button--link" overlay="true" icon="delete">Удалить</xf:button>
+        <xf:button href="{{ link('quick-node/delete', null, {'node_id': $forum.node_id}) }}" class="button--link" overlay="true" icon="delete">{{ phrase('delete') }}</xf:button>
     </xf:if>
     <xf:if is="$xf.app.em.getRepository('VolkDev\QuickNode:NodePerms').hasAccess($forum, 'canManageQuickNode')">
-        <xf:button href="{{ link('quick-node/index', null, {'parent_node_id': $forum.node_id}) }}" class="button--link" overlay="true" icon="add">Создать подраздел</xf:button>
+        <xf:button href="{{ link('quick-node/index', null, {'parent_node_id': $forum.node_id}) }}" class="button--link" overlay="true" icon="add">{{ phrase('volkdev_qnc_create_subnode') }}</xf:button>
     </xf:if>
     <xf:if is="$xf.app.em.getRepository('VolkDev\QuickNode:NodePerms').hasAccess($forum, 'canManageQuickNodePerms')">
         <xf:button href="{{ link('quick-node/permissions', null, {'node_id': $forum.node_id}) }}" class="button--link" overlay="true" icon="settings">{{ phrase('volkdev_qnc_permissions_btn') }}</xf:button>
@@ -69,10 +69,10 @@ $2]]></replace>
     <find><![CDATA[/(<a href="{{ link\('link-forums', \$node\) }}"[^>]*>{\$node\.title}<\/a>)/is]]></find>
     <replace><![CDATA[$1
     <xf:if is="$xf.app.em.getRepository('VolkDev\QuickNode:NodePerms').hasAccess($node, 'canDeleteQuickNode')">
-        <a href="{{ link('quick-node/delete', null, {'node_id': $node.node_id}) }}" data-xf-click="overlay" style="font-size: 12px; margin-left: 5px; color: #c84448;">[Удалить]</a>
+        <a href="{{ link('quick-node/delete', null, {'node_id': $node.node_id}) }}" data-xf-click="overlay" style="font-size: 12px; margin-left: 5px; color: #c84448;">[{{ phrase('delete') }}]</a>
     </xf:if>
     <xf:if is="$xf.app.em.getRepository('VolkDev\QuickNode:NodePerms').hasAccess($node, 'canEditQuickNode')">
-        <a href="{{ link('quick-node/edit', null, {'node_id': $node.node_id}) }}" data-xf-click="overlay" style="font-size: 12px; margin-left: 5px;">[Ред.]</a>
+        <a href="{{ link('quick-node/edit', null, {'node_id': $node.node_id}) }}" data-xf-click="overlay" style="font-size: 12px; margin-left: 5px;">[{{ phrase('edit') }}]</a>
     </xf:if>
 ]]></replace>
   </modification>
