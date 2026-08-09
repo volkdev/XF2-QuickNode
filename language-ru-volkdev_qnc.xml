@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<language language_code="ru-RU" language_title="Russian (RU)" text_direction="LTR" base_language_id="" language_version="2" addon_id="VolkDev/QuickNode">
+  <!-- Admin navigation & permissions -->
+  <phrase title="admin_navigation.volkdevQncLogs" version_id="1010070" version_string="1.1.0"><![CDATA[Логи Quick Node Creator]]></phrase>
+  <phrase title="admin_permission.qncManageLogs" version_id="1010070" version_string="1.1.0"><![CDATA[Управление логами Quick Node Creator]]></phrase>
+
+  <!-- Alerts -->
+  <phrase title="alert_volkdev_qnc_log_approve" version_id="1010070" version_string="1.2.0"><![CDATA[Ваш запрос на удаление раздела "{nodeTitle}" был одобрен администратором. Раздел удалён.]]></phrase>
+  <phrase title="alert_volkdev_qnc_log_reject" version_id="1010070" version_string="1.2.0"><![CDATA[Ваш запрос на удаление раздела "{nodeTitle}" был отклонён администратором. Раздел снова видим.]]></phrase>
+  <phrase title="alert_volkdev_qnc_log_revert" version_id="1010070" version_string="1.2.0"><![CDATA[Администратор отменил ваше последнее действие над разделом "{nodeTitle}". Данные восстановлены.]]></phrase>
+
+  <!-- Options -->
+  <phrase title="option.qnc_private_allowed_groups" version_id="1010070" version_string="1.1.0"><![CDATA[Группы, всегда видящие приватные разделы]]></phrase>
+  <phrase title="option_explain.qnc_private_allowed_groups" version_id="1010070" version_string="1.1.0"><![CDATA[Группы, которые всегда видят приватно созданные разделы, независимо от настроек приватности.]]></phrase>
+  <phrase title="option_group.volkdev_qnc" version_id="1010070" version_string="1.1.0"><![CDATA[Quick Node Creator]]></phrase>
+  <phrase title="option_group_description.volkdev_qnc" version_id="1010070" version_string="1.1.0"><![CDATA[]]></phrase>
+
+  <!-- Permissions -->
+  <phrase title="permission.forum_canDeleteQuickNode" version_id="1010070" version_string="1.1.0"><![CDATA[Может удалять разделы с фронтенда]]></phrase>
+  <phrase title="permission.forum_canEditQuickNode" version_id="1010070" version_string="1.1.0"><![CDATA[Может редактировать разделы с фронтенда]]></phrase>
+  <phrase title="permission.forum_canManageQuickNode" version_id="1010070" version_string="1.1.0"><![CDATA[Может создавать разделы с фронтенда]]></phrase>
+  <phrase title="permission.forum_canManageQuickNodePerms" version_id="1010070" version_string="1.1.0"><![CDATA[Может управлять правами групп с фронтенда]]></phrase>
+  <phrase title="permission_interface.volkdev_qn" version_id="1010070" version_string="1.1.0"><![CDATA[Quick Node Creator]]></phrase>
+
+  <!-- Action labels -->
+  <phrase title="volkdev_qnc_action_create" version_id="1010070" version_string="1.1.0"><![CDATA[Создано]]></phrase>
+  <phrase title="volkdev_qnc_action_delete" version_id="1010070" version_string="1.1.0"><![CDATA[Удалено]]></phrase>
+  <phrase title="volkdev_qnc_action_edit" version_id="1010070" version_string="1.1.0"><![CDATA[Изменено]]></phrase>
+  <phrase title="volkdev_qnc_action_move" version_id="1010070" version_string="1.1.0"><![CDATA[Перемещено]]></phrase>
+  <phrase title="volkdev_qnc_action_pending_delete" version_id="1010070" version_string="1.1.0"><![CDATA[Ожидает удаления]]></phrase>
+  <phrase title="volkdev_qnc_action_perm_change" version_id="1010070" version_string="1.1.0"><![CDATA[Изменение прав]]></phrase>
+  <phrase title="volkdev_qnc_action_reverted" version_id="1010070" version_string="1.1.0"><![CDATA[Действие успешно отменено!]]></phrase>
+
+  <!-- Moderators -->
+  <phrase title="volkdev_qnc_add_moderator" version_id="1010070" version_string="1.2.0"><![CDATA[Добавить модератора]]></phrase>
+  <phrase title="volkdev_qnc_local_moderators" version_id="1010070" version_string="1.2.0"><![CDATA[Локальные модераторы раздела]]></phrase>
+  <phrase title="volkdev_qnc_moderator_added" version_id="1010070" version_string="1.2.0"><![CDATA[Пользователь назначен модератором раздела.]]></phrase>
+  <phrase title="volkdev_qnc_moderator_removed" version_id="1010070" version_string="1.2.0"><![CDATA[Пользователь больше не модератор этого раздела.]]></phrase>
+  <phrase title="volkdev_qnc_moderators_btn" version_id="1010070" version_string="1.2.0"><![CDATA[Модераторы]]></phrase>
+  <phrase title="volkdev_qnc_no_moderators" version_id="1010070" version_string="1.2.0"><![CDATA[Локальные модераторы пока не назначены.]]></phrase>
+  <phrase title="volkdev_qnc_remove_moderator" version_id="1010070" version_string="1.2.0"><![CDATA[Удалить модератора]]></phrase>
+  <phrase title="volkdev_qnc_remove_moderator_confirm" version_id="1010070" version_string="1.2.0"><![CDATA[Вы уверены, что хотите забрать права модератора у {username} в разделе "{title}"?]]></phrase>
+
+  <!-- Node creation / editing / deletion -->
+  <phrase title="volkdev_qnc_allow_posting" version_id="1010070" version_string="1.2.0"><![CDATA[Разрешить создание новых тем]]></phrase>
+  <phrase title="volkdev_qnc_allow_posting_explain" version_id="1010070" version_string="1.2.0"><![CDATA[Если отключить, раздел будет работать как архив: пользователи смогут читать темы, но не создавать новые.]]></phrase>
+  <phrase title="volkdev_qnc_create_node_title" version_id="1010070" version_string="1.1.0"><![CDATA[Quick Node Creator]]></phrase>
+  <phrase title="volkdev_qnc_create_subnode" version_id="1010070" version_string="1.1.0"><![CDATA[Создать подраздел]]></phrase>
+  <phrase title="volkdev_qnc_delete_title" version_id="1010070" version_string="1.1.0"><![CDATA[Удаление: {title}]]></phrase>
+  <phrase title="volkdev_qnc_delete_confirm_info" version_id="1010070" version_string="1.1.0"><![CDATA[Вы уверены, что хотите удалить этот раздел? Все подразделы и темы внутри него также будут удалены.]]></phrase>
+  <phrase title="volkdev_qnc_edit_title" version_id="1010070" version_string="1.1.0"><![CDATA[Редактирование: {title}]]></phrase>
+  <phrase title="volkdev_qnc_link_url_explain" version_id="1010070" version_string="1.2.0"><![CDATA[Укажите веб-адрес, на который должен перенаправлять этот раздел-ссылка.]]></phrase>
+  <phrase title="volkdev_qnc_node_created" version_id="1010070" version_string="1.1.0"><![CDATA[Раздел успешно создан!]]></phrase>
+  <phrase title="volkdev_qnc_node_deleted" version_id="1010070" version_string="1.1.0"><![CDATA[Раздел удален!]]></phrase>
+  <phrase title="volkdev_qnc_node_updated" version_id="1010070" version_string="1.1.0"><![CDATA[Раздел обновлен!]]></phrase>
+  <phrase title="volkdev_qnc_node_x" version_id="1010070" version_string="1.1.0"><![CDATA[Раздел {id}]]></phrase>
+
+  <!-- Private nodes -->
+  <phrase title="volkdev_qnc_private_node" version_id="1010070" version_string="1.2.0"><![CDATA[Приватный раздел]]></phrase>
+  <phrase title="volkdev_qnc_private_node_explain" version_id="1010070" version_string="1.2.0"><![CDATA[Если включено, раздел будет виден только определённым группам и администраторам.]]></phrase>
+
+  <!-- Delete request workflow -->
+  <phrase title="volkdev_qnc_approve_confirm" version_id="1010070" version_string="1.1.0"><![CDATA[Вы уверены, что хотите навсегда удалить раздел "{title}"? Удаление запросил {username}.]]></phrase>
+  <phrase title="volkdev_qnc_approve_submit" version_id="1010070" version_string="1.1.0"><![CDATA[Подтвердить удаление]]></phrase>
+  <phrase title="volkdev_qnc_approve_title" version_id="1010070" version_string="1.1.0"><![CDATA[Подтверждение удаления]]></phrase>
+  <phrase title="volkdev_qnc_delete_approved" version_id="1010070" version_string="1.1.0"><![CDATA[Удаление раздела подтверждено!]]></phrase>
+  <phrase title="volkdev_qnc_delete_rejected" version_id="1010070" version_string="1.1.0"><![CDATA[Удаление раздела отклонено!]]></phrase>
+  <phrase title="volkdev_qnc_delete_request_message" version_id="1010070" version_string="1.1.0"><![CDATA[Пользователь запросил удаление раздела через Quick Node Creator. Перейдите в логи, чтобы одобрить или отклонить.]]></phrase>
+  <phrase title="volkdev_qnc_delete_request_title" version_id="1010070" version_string="1.1.0"><![CDATA[Запрос на удаление раздела: {title}]]></phrase>
+  <phrase title="volkdev_qnc_delete_requested" version_id="1010070" version_string="1.1.0"><![CDATA[Запрос на удаление отправлен администраторам.]]></phrase>
+  <phrase title="volkdev_qnc_deleted_or_unknown" version_id="1010070" version_string="1.1.0"><![CDATA[Удален / Неизвестен]]></phrase>
+
+  <!-- Log management -->
+  <phrase title="volkdev_qnc_btn_approve" version_id="1010070" version_string="1.1.0"><![CDATA[Одобрить]]></phrase>
+  <phrase title="volkdev_qnc_btn_filter" version_id="1010070" version_string="1.1.0"><![CDATA[Фильтр]]></phrase>
+  <phrase title="volkdev_qnc_btn_reject" version_id="1010070" version_string="1.1.0"><![CDATA[Отклонить]]></phrase>
+  <phrase title="volkdev_qnc_btn_revert" version_id="1010070" version_string="1.1.0"><![CDATA[Отменить]]></phrase>
+  <phrase title="volkdev_qnc_btn_view_details" version_id="1010070" version_string="1.1.0"><![CDATA[Детали]]></phrase>
+  <phrase title="volkdev_qnc_col_action" version_id="1010070" version_string="1.1.0"><![CDATA[Действие]]></phrase>
+  <phrase title="volkdev_qnc_col_date" version_id="1010070" version_string="1.1.0"><![CDATA[Дата]]></phrase>
+  <phrase title="volkdev_qnc_col_moderator" version_id="1010070" version_string="1.1.0"><![CDATA[Модератор]]></phrase>
+  <phrase title="volkdev_qnc_col_node" version_id="1010070" version_string="1.1.0"><![CDATA[Раздел]]></phrase>
+  <phrase title="volkdev_qnc_filter_action" version_id="1010070" version_string="1.1.0"><![CDATA[Тип действия]]></phrase>
+  <phrase title="volkdev_qnc_filter_all_actions" version_id="1010070" version_string="1.1.0"><![CDATA[Все действия]]></phrase>
+  <phrase title="volkdev_qnc_filter_period" version_id="1010070" version_string="1.1.0"><![CDATA[Период]]></phrase>
+  <phrase title="volkdev_qnc_filter_username" version_id="1010070" version_string="1.1.0"><![CDATA[Пользователь]]></phrase>
+  <phrase title="volkdev_qnc_log_detail_title" version_id="1010070" version_string="1.1.0"><![CDATA[Детали лога]]></phrase>
+  <phrase title="volkdev_qnc_log_goto_report" version_id="1010070" version_string="1.1.0"><![CDATA[Перейти в логи для управления]]></phrase>
+  <phrase title="volkdev_qnc_log_new_data" version_id="1010070" version_string="1.1.0"><![CDATA[Новое состояние]]></phrase>
+  <phrase title="volkdev_qnc_log_no_data" version_id="1010070" version_string="1.1.0"><![CDATA[Нет данных]]></phrase>
+  <phrase title="volkdev_qnc_log_old_data" version_id="1010070" version_string="1.1.0"><![CDATA[Предыдущее состояние]]></phrase>
+  <phrase title="volkdev_qnc_logs_title" version_id="1010070" version_string="1.1.0"><![CDATA[Логи Quick Node Creator]]></phrase>
+  <phrase title="volkdev_qnc_no_logs_found" version_id="1010070" version_string="1.1.0"><![CDATA[Логов за выбранный период не найдено.]]></phrase>
+
+  <!-- Mass revert -->
+  <phrase title="volkdev_qnc_mass_revert_btn" version_id="1010070" version_string="1.1.0"><![CDATA[Отменить все действия {username} за {period}]]></phrase>
+  <phrase title="volkdev_qnc_mass_revert_confirm" version_id="1010070" version_string="1.1.0"><![CDATA[Вы уверены, что хотите отменить все действия {username} за выбранный период ({period})? Удалённые разделы будут восстановлены, созданные — удалены, а изменения — отменены.]]></phrase>
+  <phrase title="volkdev_qnc_mass_revert_done" version_id="1010070" version_string="1.1.0"><![CDATA[Массовая отмена завершена. Отменено действий: {count}]]></phrase>
+  <phrase title="volkdev_qnc_mass_revert_submit" version_id="1010070" version_string="1.1.0"><![CDATA[Отменить всё]]></phrase>
+  <phrase title="volkdev_qnc_mass_revert_title" version_id="1010070" version_string="1.1.0"><![CDATA[Массовая отмена действий]]></phrase>
+
+  <!-- Periods -->
+  <phrase title="volkdev_qnc_period_1h" version_id="1010070" version_string="1.1.0"><![CDATA[Последний час]]></phrase>
+  <phrase title="volkdev_qnc_period_24h" version_id="1010070" version_string="1.1.0"><![CDATA[Последние 24 часа]]></phrase>
+  <phrase title="volkdev_qnc_period_30d" version_id="1010070" version_string="1.1.0"><![CDATA[Последние 30 дней]]></phrase>
+  <phrase title="volkdev_qnc_period_6h" version_id="1010070" version_string="1.1.0"><![CDATA[Последние 6 часов]]></phrase>
+  <phrase title="volkdev_qnc_period_7d" version_id="1010070" version_string="1.1.0"><![CDATA[Последние 7 дней]]></phrase>
+  <phrase title="volkdev_qnc_period_all" version_id="1010070" version_string="1.1.0"><![CDATA[Всё время]]></phrase>
+
+  <!-- Permissions UI -->
+  <phrase title="volkdev_qnc_permissions_btn" version_id="1010070" version_string="1.2.0"><![CDATA[Права групп]]></phrase>
+  <phrase title="volkdev_qnc_permissions_edit_title" version_id="1010070" version_string="1.1.0"><![CDATA[Настройка прав: {title}]]></phrase>
+  <phrase title="volkdev_qnc_permissions_list_title" version_id="1010070" version_string="1.1.0"><![CDATA[Управление правами: {title}]]></phrase>
+  <phrase title="volkdev_qnc_permissions_updated" version_id="1010070" version_string="1.1.0"><![CDATA[Права успешно обновлены!]]></phrase>
+  <phrase title="volkdev_qnc_configure_permissions" version_id="1010070" version_string="1.1.0"><![CDATA[Настроить права]]></phrase>
+  <phrase title="volkdev_qnc_no_groups_available" version_id="1010070" version_string="1.1.0"><![CDATA[Нет групп, доступных для управления.]]></phrase>
+
+  <!-- Permission values -->
+  <phrase title="volkdev_qnc_perm_view" version_id="1010070" version_string="1.1.0"><![CDATA[Просмотр раздела]]></phrase>
+  <phrase title="volkdev_qnc_perm_view_explain" version_id="1010070" version_string="1.1.0"><![CDATA[Может ли эта группа видеть раздел и его содержимое.]]></phrase>
+  <phrase title="volkdev_qnc_perm_post" version_id="1010070" version_string="1.1.0"><![CDATA[Написание сообщений]]></phrase>
+  <phrase title="volkdev_qnc_perm_post_explain" version_id="1010070" version_string="1.1.0"><![CDATA[Может ли эта группа создавать темы и писать ответы.]]></phrase>
+  <phrase title="volkdev_qnc_perm_allow" version_id="1010070" version_string="1.1.0"><![CDATA[Да (Разрешить)]]></phrase>
+  <phrase title="volkdev_qnc_perm_reset" version_id="1010070" version_string="1.1.0"><![CDATA[Нет (Наследовать)]]></phrase>
+  <phrase title="volkdev_qnc_perm_deny" version_id="1010070" version_string="1.1.0"><![CDATA[Никогда (Жесткий запрет)]]></phrase>
+  <phrase title="volkdev_qnc_perm_moderation" version_id="1010070" version_string="1.1.0"><![CDATA[Управление (Модерация)]]></phrase>
+  <phrase title="volkdev_qnc_perm_moderator" version_id="1010070" version_string="1.1.0"><![CDATA[Права модератора]]></phrase>
+  <phrase title="volkdev_qnc_perm_moderator_hint" version_id="1010070" version_string="1.1.0"><![CDATA[Мягкое удаление, перемещение, закрепление, открытие/закрытие тем.]]></phrase>
+  <phrase title="volkdev_qnc_perm_administrator" version_id="1010070" version_string="1.1.0"><![CDATA[Права администратора]]></phrase>
+  <phrase title="volkdev_qnc_perm_administrator_hint" version_id="1010070" version_string="1.1.0"><![CDATA[Все права модератора, плюс выдача предупреждений и редактирование чужих сообщений.]]></phrase>
+
+  <!-- Protected groups -->
+  <phrase title="volkdev_qnc_protected_group" version_id="1020070" version_string="1.2.0"><![CDATA[Эта группа защищена от редактирования.]]></phrase>
+  <phrase title="volkdev_qnc_protected_group_hint" version_id="3000670" version_string="3.0.6"><![CDATA[Если включено, только администраторы форума смогут изменять права этой группы через фронтенд-интерфейс Quick Node Creator.]]></phrase>
+  <phrase title="volkdev_qnc_protected_group_label" version_id="3000670" version_string="3.0.6"><![CDATA[Ограничить изменение прав в Quick Node Creator]]></phrase>
+
+  <!-- Revert confirmation -->
+  <phrase title="volkdev_qnc_reject_action" version_id="1010070" version_string="1.1.0"><![CDATA[Отклонить]]></phrase>
+  <phrase title="volkdev_qnc_reject_confirm" version_id="1010070" version_string="1.1.0"><![CDATA[Вы уверены, что хотите отклонить удаление раздела "{title}"? Раздел снова станет виден всем пользователям.]]></phrase>
+  <phrase title="volkdev_qnc_reject_submit" version_id="1010070" version_string="1.1.0"><![CDATA[Отклонить]]></phrase>
+  <phrase title="volkdev_qnc_reject_title" version_id="1010070" version_string="1.1.0"><![CDATA[Отклонение удаления]]></phrase>
+  <phrase title="volkdev_qnc_revert_confirm" version_id="1010070" version_string="1.1.0"><![CDATA[Вы уверены, что хотите отменить действие "{action}" от пользователя {username}?]]></phrase>
+  <phrase title="volkdev_qnc_revert_submit" version_id="1010070" version_string="1.1.0"><![CDATA[Подтвердить отмену]]></phrase>
+  <phrase title="volkdev_qnc_revert_title" version_id="1010070" version_string="1.1.0"><![CDATA[Подтверждение отмены]]></phrase>
+
+  <!-- User search errors -->
+  <phrase title="volkdev_qnc_user_not_found" version_id="1010070" version_string="1.1.0"><![CDATA[Пользователь не найден.]]></phrase>
+  <phrase title="volkdev_qnc_user_not_specified" version_id="1010070" version_string="1.1.0"><![CDATA[Пользователь не указан.]]></phrase>
+
+  <!-- Other -->
+  <phrase title="volkdev_qnc_cannot_give_mod_to_base_groups" version_id="3020070" version_string="3.2.0"><![CDATA[Нельзя выдать права модератора/администратора базовым группам "Гости" (Unregistered) или "Пользователи" (Registered). Пожалуйста, выберите другую группу.]]></phrase>
+</language>
