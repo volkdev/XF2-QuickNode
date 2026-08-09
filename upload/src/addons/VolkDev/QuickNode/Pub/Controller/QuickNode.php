@@ -301,7 +301,7 @@ class QuickNode extends AbstractController
 
             $redirect = $this->buildLink('forums');
             if ($node->Parent) {
-                $redirect = $this->buildLink('forums', $node->Parent);
+                $redirect = $this->buildLink($node->Parent->getRoute(), $node->Parent);
             }
             return $this->redirect($redirect, \XF::phrase('volkdev_qnc_delete_requested'));
         }
