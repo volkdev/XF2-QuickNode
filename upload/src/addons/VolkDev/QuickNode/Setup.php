@@ -71,6 +71,13 @@ class Setup extends AbstractSetup
         });
     }
 
+    public function installStep3()
+    {
+        $this->schemaManager()->alterTable('xf_node', function (Alter $table) {
+            $table->addColumn('qnc_pending_delete', 'tinyint')->setDefault(0)->comment('QuickNode pending deletion flag');
+        });
+    }
+
     public function upgrade3000470Step1()
     {
         $this->installStep2();
