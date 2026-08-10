@@ -25,6 +25,10 @@ class NodePerms extends Repository
             return false;
         }
 
+        if (!$node->canView()) {
+            return false;
+        }
+
         if (!in_array($node->node_type_id, ['Category', 'LinkForum'])) {
             return $visitor->hasNodePermission($node->node_id, $permission);
         }
