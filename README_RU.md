@@ -29,7 +29,7 @@
 ![Управление правами](https://i.imgur.com/hjfDgYs.png)
 
 ### Логи в админке и система откатов (Revert)
-![Логи в админке](https://i.imgur.com/EIDC7AP.png)
+![Логи в админке](https://i.imgur.com/OHWwHel.png)
 
 ## 📥 Установка
 1. Скачайте `.zip` архив последней версии из раздела [Releases](../../releases).
