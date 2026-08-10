@@ -27,7 +27,7 @@ This add-on is designed with strict adherence to XenForo 2 MVC standards and bes
 ![Permissions Editor](https://i.imgur.com/lR9Bez0.png)
 
 ### ACP Action Logs & Revert System
-![ACP Logs](https://imgur.com/FjzPMvQ)
+![ACP Logs](https://i.imgur.com/FjzPMvQ.png)
 
 ## 📥 Installation
 1. Download the latest `.zip` archive from the [Releases](../../releases) page.
