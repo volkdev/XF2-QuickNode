@@ -10,7 +10,7 @@
     "support_url": "https://t.me/volkdev_support",
     "extra_urls": [],
     "require": {
-        "XF": [2021270, "2.2.12"]
+        "XF": [2020070, "2.2.0"]
     },
     "icon": ""
 }
