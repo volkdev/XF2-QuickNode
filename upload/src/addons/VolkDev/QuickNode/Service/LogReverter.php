@@ -13,7 +13,10 @@ class LogReverter extends AbstractService
         }
 
         $result = false;
-        if ($log->action === 'create') {
+        if (!$log->Node && $log->action !== 'delete' && $log->action !== 'pending_delete') {
+            // Node is already deleted, so the action is effectively reverted/obsolete
+            $result = true;
+        } elseif ($log->action === 'create') {
             $result = $this->revertCreate($log);
         } elseif ($log->action === 'edit') {
             $result = $this->revertEdit($log);
