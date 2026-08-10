@@ -73,7 +73,7 @@
                             <xf:if is="$log.action == 'pending_delete'">
                                 <xf:button href="{{ link('qnc-logs/approve', null, {'log_id': $log.log_id}) }}" overlay="true" icon="confirm">{{ phrase('volkdev_qnc_btn_approve') }}</xf:button>
                                 <xf:button href="{{ link('qnc-logs/reject', null, {'log_id': $log.log_id}) }}" overlay="true" icon="cancel">{{ phrase('volkdev_qnc_btn_reject') }}</xf:button>
-                            <xf:elseif is="$log.action != 'delete'" />
+                            <xf:elseif is="$log.action != 'delete' AND $log.action != 'reverted' AND $log.action != 'rejected'" />
                                 <xf:button href="{{ link('qnc-logs/revert', null, {'log_id': $log.log_id}) }}" overlay="true">{{ phrase('volkdev_qnc_btn_revert') }}</xf:button>
                             </xf:if>
                             <xf:button href="{{ link('qnc-logs/view', null, {'log_id': $log.log_id}) }}" overlay="true" icon="preview">{{ phrase('volkdev_qnc_btn_view_details') }}</xf:button>

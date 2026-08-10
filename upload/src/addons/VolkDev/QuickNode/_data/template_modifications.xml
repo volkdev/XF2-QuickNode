@@ -8,6 +8,10 @@
     <find><![CDATA[/(<h[23] class="(?:node-title|block-header)">)/i]]></find>
     <replace><![CDATA[$1<xf:if is="$node.qnc_pending_delete"><span class="label label--accent" style="background-color: #e74c3c; color: white; font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-right: 5px;">{{ phrase('volkdev_qnc_action_pending_delete') }}</span></xf:if>]]></replace>
   </modification>
+  <modification type="public" template="node_list_link_forum" modification_key="volkdev_qn_pending_delete_badge_link" description="Shows pending delete badge on link forum nodes" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/(<h[23] class="(?:node-title|block-header)">)/i]]></find>
+    <replace><![CDATA[$1<xf:if is="$node.qnc_pending_delete"><span class="label label--accent" style="background-color: #e74c3c; color: white; font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-right: 5px;">{{ phrase('volkdev_qnc_action_pending_delete') }}</span></xf:if>]]></replace>
+  </modification>
   <modification type="public" template="category_view" modification_key="volkdev_add_node_btn_cat" execution_order="10" enabled="1" action="preg_replace">
     <find><![CDATA[/(<div class="block-outer">.*?<div class="buttonGroup">)(.*?<xf:contentcheck>)/is]]></find>
     <replace><![CDATA[$1

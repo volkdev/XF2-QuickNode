@@ -35,6 +35,11 @@ class LogReverter extends AbstractService
             );
         }
 
+        if ($result && $log->action !== 'pending_delete' && $log->action !== 'reverted') {
+            $log->action = 'reverted';
+            $log->save();
+        }
+
         return $result;
     }
 
