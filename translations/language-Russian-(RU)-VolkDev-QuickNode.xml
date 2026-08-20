@@ -70,6 +70,12 @@
   <phrase title="volkdev_qnc_delete_requested" version_id="1010070" version_string="1.1.0"><![CDATA[Запрос на удаление отправлен администраторам.]]></phrase>
   <phrase title="volkdev_qnc_deleted_or_unknown" version_id="1010070" version_string="1.1.0"><![CDATA[Удален / Неизвестен]]></phrase>
 
+  <!-- Buttons / Common Actions -->
+  <phrase title="volkdev_qnc_btn_create" version_id="3030470" version_string="3.3.4"><![CDATA[Создать]]></phrase>
+  <phrase title="volkdev_qnc_btn_save" version_id="3030470" version_string="3.3.4"><![CDATA[Сохранить]]></phrase>
+  <phrase title="volkdev_qnc_btn_delete" version_id="3030470" version_string="3.3.4"><![CDATA[Удалить]]></phrase>
+  <phrase title="volkdev_qnc_save_permissions" version_id="3030470" version_string="3.3.4"><![CDATA[Сохранить права]]></phrase>
+
   <!-- Log management -->
   <phrase title="volkdev_qnc_btn_approve" version_id="1010070" version_string="1.1.0"><![CDATA[Одобрить]]></phrase>
   <phrase title="volkdev_qnc_btn_filter" version_id="1010070" version_string="1.1.0"><![CDATA[Фильтр]]></phrase>

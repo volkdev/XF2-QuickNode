@@ -191,10 +191,10 @@
         <div class="block-body">
             <xf:inforow>{{ phrase('volkdev_qnc_delete_confirm_info') }}</xf:inforow>
         </div>
-        <xf:submitrow submit="{{ phrase('delete') }}" icon="delete" />
+        <xf:submitrow submit="{{ phrase('volkdev_qnc_btn_delete') }}" icon="delete" />
     </div>
 </xf:form>]]></template>
-  <template type="public" title="volkdev_qn_edit" version_id="1010070" version_string="1.1.0"><![CDATA[<xf:title>{{ phrase('volkdev_qnc_edit_title', {'title': $node.title}) }}</xf:title>
+  <template type="public" title="volkdev_qn_edit" version_id="3030470" version_string="3.3.4"><![CDATA[<xf:title>{{ phrase('volkdev_qnc_edit_title', {'title': $node.title}) }}</xf:title>
 <xf:form action="{{ link('quick-node/edit', null, {'node_id': $node.node_id}) }}" ajax="true" class="block">
     <div class="block-container">
         <div class="block-body">
@@ -238,10 +238,10 @@
                 </xf:if>
             </xf:if>
         </div>
-        <xf:submitrow submit="{{ phrase('save') }}" icon="save" />
+        <xf:submitrow submit="{{ phrase('volkdev_qnc_btn_save') }}" icon="save" />
     </div>
 </xf:form>]]></template>
-  <template type="public" title="volkdev_qn_index" version_id="1010070" version_string="1.1.0"><![CDATA[<xf:title>{{ phrase('volkdev_qnc_create_node_title') }}</xf:title>
+  <template type="public" title="volkdev_qn_index" version_id="3030470" version_string="3.3.4"><![CDATA[<xf:title>{{ phrase('volkdev_qnc_create_node_title') }}</xf:title>
 
 <xf:form action="{{ link('quick-node/save') }}" ajax="true" class="block">
 	<xf:hiddenval name="node[parent_node_id]" value="{$parentNodeId}" />
@@ -298,7 +298,7 @@
             </xf:checkboxrow>
 
         </div>
-        <xf:submitrow submit="{{ phrase('create') }}" icon="save" />
+        <xf:submitrow submit="{{ phrase('volkdev_qnc_btn_create') }}" icon="save" />
     </div>
 </xf:form>]]></template>
   <template type="public" title="volkdev_qn_moderator_remove" version_id="1010070" version_string="1.2.0"><![CDATA[<xf:title>{{ phrase('volkdev_qnc_remove_moderator') }}: {$moderator.username}</xf:title>
@@ -308,7 +308,7 @@
         <div class="block-body">
             <xf:inforow>{{ phrase('volkdev_qnc_remove_moderator_confirm', {'username': $moderator.username, 'title': $node.title}) }}</xf:inforow>
         </div>
-        <xf:submitrow submit="{{ phrase('delete') }}" icon="delete" />
+        <xf:submitrow submit="{{ phrase('volkdev_qnc_btn_delete') }}" icon="delete" />
     </div>
 </xf:form>]]></template>
   <template type="public" title="volkdev_qn_moderators" version_id="1010070" version_string="1.2.0"><![CDATA[<xf:title>{{ phrase('volkdev_qnc_local_moderators') }}: {$node.title}</xf:title>
@@ -339,7 +339,7 @@
         </div>
     </div>
 </div>]]></template>
-  <template type="public" title="volkdev_qn_permissions_edit" version_id="1010070" version_string="1.1.0"><![CDATA[<xf:title>{{ phrase('volkdev_qnc_permissions_edit_title', {'title': $userGroup.title}) }}</xf:title>
+  <template type="public" title="volkdev_qn_permissions_edit" version_id="3030470" version_string="3.3.4"><![CDATA[<xf:title>{{ phrase('volkdev_qnc_permissions_edit_title', {'title': $userGroup.title}) }}</xf:title>
 
 <xf:form action="{{ link('quick-node/permissions/edit', null, {'node_id': $node.node_id, 'user_group_id': $userGroup.user_group_id}) }}" ajax="true" class="block">
     <div class="block-container">
@@ -367,7 +367,7 @@
             </xf:checkboxrow>
 
         </div>
-        <xf:submitrow submit="{{ phrase('save_permissions') }}" icon="save" />
+        <xf:submitrow submit="{{ phrase('volkdev_qnc_save_permissions') }}" icon="save" />
     </div>
 </xf:form>]]></template>
   <template type="public" title="volkdev_qn_permissions_list" version_id="3030470" version_string="3.3.4"><![CDATA[<xf:title>{{ phrase('volkdev_qnc_permissions_list_title', {'title': $node.title}) }}</xf:title>
