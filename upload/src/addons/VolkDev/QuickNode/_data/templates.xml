@@ -481,24 +481,13 @@
                 </xf:option>
             </xf:radiorow>
 
-            <hr class="formRowSep" />
+            <xf:css src="permission.less" />
+            <xf:js src="xf/permission.js" />
 
-            <div class="block-formLoop">
-                <h3 class="block-formLoop-title">{{ phrase('permissions') }}</h3>
-                <xf:foreach loop="$availablePermissions" key="$groupId" value="$permGroup">
-                    <xf:formrow label="{$permGroup.title}">
-                        <xf:foreach loop="$permGroup.permissions" key="$permId" value="$permTitle">
-                            <div style="margin-bottom: 4px;">
-                                <label class="iconic iconic--checkbox">
-                                    <input type="checkbox" name="permissions[{$groupId}][{$permId}]" value="content_allow" {{ $template.permissions.{$groupId}.{$permId} == 'content_allow' ? 'checked="checked"' : '' }} />
-                                    <i aria-hidden="true"></i>
-                                    <span class="iconic-label">{$permTitle}</span>
-                                </label>
-                            </div>
-                        </xf:foreach>
-                    </xf:formrow>
-                </xf:foreach>
-            </div>
+            <xf:macro template="permission_macros" name="content_edit_groups"
+                arg-interfaceGroups="{$permissionData.interfaceGroups}"
+                arg-permissionsGrouped="{$permissionData.permissionsGrouped}"
+                arg-values="{$template.permissions}" />
 
         </div>
         <xf:submitrow submit="{{ phrase('volkdev_qnc_btn_save') }}" icon="save" />

@@ -32,46 +32,15 @@ class PermTemplate extends AbstractController
 
         $userGroups = $this->finder('XF:UserGroup')->order('title')->fetch();
 
-        $availablePermissions = [
-            'general' => [
-                'title' => \XF::phrase('volkdev_qnc_perm_group_general'),
-                'permissions' => [
-                    'viewNode' => \XF::phrase('volkdev_qnc_perm_view'),
-                ]
-            ],
-            'forum' => [
-                'title' => \XF::phrase('volkdev_qnc_perm_group_forum'),
-                'permissions' => [
-                    'viewOthers' => \XF::phrase('volkdev_qnc_perm_view_others'),
-                    'viewContent' => \XF::phrase('volkdev_qnc_perm_view_content'),
-                    'postThread' => \XF::phrase('volkdev_qnc_perm_post_thread'),
-                    'postReply' => \XF::phrase('volkdev_qnc_perm_post_reply'),
-                    'deleteOwnPost' => \XF::phrase('volkdev_qnc_perm_delete_own_post'),
-                    'editOwnPost' => \XF::phrase('volkdev_qnc_perm_edit_own_post'),
-                    'uploadAttachment' => \XF::phrase('volkdev_qnc_perm_upload_attachment'),
-                    'react' => \XF::phrase('volkdev_qnc_perm_react'),
-                    'manageAnyThread' => \XF::phrase('volkdev_qnc_perm_manage_any_thread'),
-                    'deleteAnyThread' => \XF::phrase('volkdev_qnc_perm_delete_any_thread'),
-                    'deleteAny' => \XF::phrase('volkdev_qnc_perm_delete_any_post'),
-                    'lockUnlockThread' => \XF::phrase('volkdev_qnc_perm_lock_unlock'),
-                    'stickUnstickThread' => \XF::phrase('volkdev_qnc_perm_stick_unstick'),
-                    'inlineMod' => \XF::phrase('volkdev_qnc_perm_inline_mod'),
-                    'editAnyPost' => \XF::phrase('volkdev_qnc_perm_edit_any_post'),
-                    'warn' => \XF::phrase('volkdev_qnc_perm_warn'),
-                    'viewDeleted' => \XF::phrase('volkdev_qnc_perm_view_deleted'),
-                    'viewModerated' => \XF::phrase('volkdev_qnc_perm_view_moderated'),
-                    'undelete' => \XF::phrase('volkdev_qnc_perm_undelete'),
-                    'approveUnapprove' => \XF::phrase('volkdev_qnc_perm_approve_unapprove'),
-                    'hardDeleteAnyThread' => \XF::phrase('volkdev_qnc_perm_hard_delete_thread'),
-                ]
-            ]
-        ];
+        /** @var \XF\Repository\Permission $permissionRepo */
+        $permissionRepo = $this->repository('XF:Permission');
+        $permissionData = $permissionRepo->getContentPermissionListData('node');
 
         return $this->view('VolkDev\QuickNode:PermTemplate\Edit', 'volkdev_qnc_perm_template_edit', [
             'template' => $template,
             'nodeTree' => $nodeTree,
             'userGroups' => $userGroups,
-            'availablePermissions' => $availablePermissions
+            'permissionData' => $permissionData
         ]);
     }
 
@@ -110,10 +79,13 @@ class PermTemplate extends AbstractController
             foreach ($input['permissions'] as $group => $perms) {
                 if (!is_array($perms)) continue;
                 foreach ($perms as $permId => $val) {
+                    if ($val === 'unset' || $val === '' || $val === '0' || $val === 0) {
+                        continue;
+                    }
                     if (in_array($val, ['content_allow', 'reset', 'deny'])) {
-                        if ($val !== 'reset') {
-                            $cleanedPermissions[$group][$permId] = $val;
-                        }
+                        $cleanedPermissions[$group][$permId] = $val;
+                    } else if (is_numeric($val) && intval($val) > 0) {
+                        $cleanedPermissions[$group][$permId] = intval($val);
                     }
                 }
             }

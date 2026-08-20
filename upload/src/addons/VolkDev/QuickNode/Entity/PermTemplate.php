@@ -52,18 +52,20 @@ class PermTemplate extends Entity
 
     public function matchesPermissions(array $currentPerms)
     {
-        if (empty($this->permissions)) {
+        if (empty($this->permissions) || !is_array($this->permissions)) {
             return false;
         }
 
         foreach ($this->permissions as $group => $perms) {
+            if (!is_array($perms)) continue;
             foreach ($perms as $permId => $val) {
-                if ($val === 'content_allow') {
-                    if (empty($currentPerms[$group][$permId]) || $currentPerms[$group][$permId] !== 'content_allow') {
+                $current = $currentPerms[$group][$permId] ?? null;
+                if ($val === 'content_allow' || $val === 'deny' || $val === 'reset') {
+                    if ($current !== $val) {
                         return false;
                     }
-                } elseif ($val === 'deny') {
-                    if (empty($currentPerms[$group][$permId]) || $currentPerms[$group][$permId] !== 'deny') {
+                } else if (is_numeric($val)) {
+                    if ($current != $val) {
                         return false;
                     }
                 }
