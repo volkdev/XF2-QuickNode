@@ -146,7 +146,7 @@
         <div class="block-body">
             <xf:foreach loop="$log.old_data" key="$key" value="$val">
                 <xf:formrow label="{$key}">
-                    <xf:if is="is_array($val)">{{ $val|json }}<xf:else />{$val}</xf:if>
+                    <xf:macro name="log_array_renderer" arg-data="{$val}" />
                 </xf:formrow>
             </xf:foreach>
         </div>
@@ -161,7 +161,7 @@
         <div class="block-body">
             <xf:foreach loop="$log.new_data" key="$key" value="$val">
                 <xf:formrow label="{$key}">
-                    <xf:if is="is_array($val)">{{ $val|json }}<xf:else />{$val}</xf:if>
+                    <xf:macro name="log_array_renderer" arg-data="{$val}" />
                 </xf:formrow>
             </xf:foreach>
         </div>
@@ -175,7 +175,36 @@
         <div class="block-body block-row">{{ phrase('volkdev_qnc_log_no_data') }}</div>
     </div>
 </div>
-</xf:if>]]></template>
+</xf:if>
+
+<xf:macro name="log_array_renderer" arg-data="!">
+    <xf:if is="is_array($data)">
+        <ul style="list-style-type: none; margin: 0; padding: 0;">
+            <xf:foreach loop="$data" key="$k" value="$v">
+                <li style="margin-bottom: 3px;">
+                    <strong><xf:if is="is_numeric($k)">- <xf:else />{$k}: </xf:if></strong> 
+                    <xf:if is="is_array($v)">
+                        <div style="padding-left: 15px; border-left: 2px solid #dfdfdf; margin-left: 5px; margin-top: 3px;">
+                            <xf:macro name="log_array_renderer" arg-data="{$v}" />
+                        </div>
+                    <xf:else />
+                        <xf:if is="$v === 'content_allow'">
+                            <span style="color: green;">{{ phrase('yes') }}</span>
+                        <xf:elseif is="$v === 'reset' OR $v === 'unset'" />
+                            <span style="color: #888;">{{ phrase('no') }}</span>
+                        <xf:elseif is="$v === 'deny'" />
+                            <span style="color: red;">{{ phrase('never') }}</span>
+                        <xf:else />
+                            {$v}
+                        </xf:if>
+                    </xf:if>
+                </li>
+            </xf:foreach>
+        </ul>
+    <xf:else />
+        {$data}
+    </xf:if>
+</xf:macro>]]></template>
   <template type="public" title="alert_volkdev_qnc_log_approve" version_id="1010070" version_string="1.2.6"><![CDATA[{{ phrase('alert_volkdev_qnc_log_approve', {'nodeTitle': $nodeTitle}) }}]]></template>
   <template type="public" title="alert_volkdev_qnc_log_reject" version_id="1010070" version_string="1.2.6"><![CDATA[{{ phrase('alert_volkdev_qnc_log_reject', {'nodeTitle': $nodeTitle}) }}]]></template>
   <template type="public" title="alert_volkdev_qnc_log_revert" version_id="1010070" version_string="1.2.6"><![CDATA[{{ phrase('alert_volkdev_qnc_log_revert', {'nodeTitle': $nodeTitle}) }}]]></template>
@@ -481,8 +510,7 @@
                 </xf:option>
             </xf:radiorow>
 
-            <xf:css src="permission.less" />
-            <xf:js src="xf/permission.js" />
+            <xf:macro template="permission_macros" name="edit_outer" arg-type="content" />
 
             <xf:macro template="permission_macros" name="content_edit_groups"
                 arg-interfaceGroups="{$permissionData.interfaceGroups}"
