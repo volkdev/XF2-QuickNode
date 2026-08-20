@@ -434,22 +434,34 @@
             <hr class="formRowSep" />
 
             <!-- Applicable Nodes -->
-            <xf:radiorow name="node_scope" value="{$template.node_scope}" label="{{ phrase('volkdev_qnc_applicable_nodes') }}">
-                <xf:option value="all" label="{{ phrase('volkdev_qnc_all_nodes') }}" />
-                <xf:option value="selected" label="{{ phrase('volkdev_qnc_specified_nodes_only') }}">
-                    <xf:dependent>
-                        <div class="inputChoices-dependencies" style="max-height: 250px; overflow-y: auto; padding: 5px; border: 1px solid #dfdfdf; border-radius: 4px;">
-                            <xf:checkbox name="node_ids[]">
-                                <xf:foreach loop="$nodeTree.getFlattened()" value="$treeEntry">
-                                    <xf:option value="{$treeEntry.record.node_id}" checked="{{ in_array($treeEntry.record.node_id, $template.node_ids) }}">
-                                        {{ repeat('--', $treeEntry.depth) }} {$treeEntry.record.title}
-                                    </xf:option>
-                                </xf:foreach>
-                            </xf:checkbox>
-                        </div>
-                    </xf:dependent>
-                </xf:option>
-            </xf:radiorow>
+            <xf:formrow rowtype="input" label="{{ phrase('volkdev_qnc_applicable_nodes') }}" explain="{{ phrase('volkdev_qnc_applicable_nodes_explain') }}">
+                <ul class="inputList">
+                    <li>
+                        <xf:select name="node_ids[]" size="7" multiple="multiple" id="js-applicableNodes">
+                            <xf:option value="" selected="!$template.node_ids">{{ phrase('volkdev_qnc_all_nodes') }}</xf:option>
+                            <xf:foreach loop="$nodeTree.getFlattened(0)" value="$treeEntry">
+                                <xf:option value="{$treeEntry.record.node_id}"
+                                    selected="{{ in_array($treeEntry.record.node_id, $template.node_ids) }}"
+                                    label="{{ repeat('&nbsp;&nbsp;', $treeEntry.depth)|raw }} {$treeEntry.record.title}" />
+                            </xf:foreach>
+                        </xf:select>
+                    </li>
+                    <li>
+                        <xf:checkbox>
+                            <xf:option label="{{ phrase('select_all') }}" id="js-selectAllNodes" />
+                        </xf:checkbox>
+                    </li>
+                </ul>
+            </xf:formrow>
+            <xf:js>
+                $(function()
+                {
+                    $('#js-selectAllNodes').click(function(e)
+                    {
+                        $('#js-applicableNodes').find('option:enabled:not([value=""])').prop('selected', this.checked);
+                    });
+                });
+            </xf:js>
 
             <!-- Applicable User Groups -->
             <xf:radiorow name="user_group_scope" value="{$template.user_group_scope}" label="{{ phrase('volkdev_qnc_applicable_groups') }}">

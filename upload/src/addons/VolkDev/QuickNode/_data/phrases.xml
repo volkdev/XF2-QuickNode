@@ -131,6 +131,7 @@
   <phrase title="volkdev_qnc_confirm_delete_template_explain" version_id="3030570" version_string="3.3.5"><![CDATA[Please confirm that you want to delete the following permission template: {title}]]></phrase>
   <phrase title="volkdev_qnc_active" version_id="3030570" version_string="3.3.5"><![CDATA[Active]]></phrase>
   <phrase title="volkdev_qnc_applicable_nodes" version_id="3030570" version_string="3.3.5"><![CDATA[Applicable nodes]]></phrase>
+  <phrase title="volkdev_qnc_applicable_nodes_explain" version_id="3030570" version_string="3.3.5"><![CDATA[Select the nodes where this template can be assigned. Select "All nodes" to make it available globally across all nodes.]]></phrase>
   <phrase title="volkdev_qnc_all_nodes" version_id="3030570" version_string="3.3.5"><![CDATA[All nodes]]></phrase>
   <phrase title="volkdev_qnc_specified_nodes_only" version_id="3030570" version_string="3.3.5"><![CDATA[Specified nodes only]]></phrase>
   <phrase title="volkdev_qnc_applicable_groups" version_id="3030570" version_string="3.3.5"><![CDATA[Applicable user groups]]></phrase>
@@ -141,6 +142,8 @@
   <phrase title="volkdev_qnc_admin_only_apply_explain" version_id="3030570" version_string="3.3.5"><![CDATA[If enabled, regular moderators using Quick Node Creator on the front-end will not be able to assign this template.]]></phrase>
   <phrase title="volkdev_qnc_enable_disable_template" version_id="3030570" version_string="3.3.5"><![CDATA[Enable / disable template]]></phrase>
   <phrase title="volkdev_qnc_perm_template_desc_explain" version_id="3030570" version_string="3.3.5"><![CDATA[Explain what this template does. This text will be shown as a hint under the template title on the front-end.]]></phrase>
+  <phrase title="volkdev_qnc_perm_group_general" version_id="3030570" version_string="3.3.5"><![CDATA[General permissions]]></phrase>
+  <phrase title="volkdev_qnc_perm_group_forum" version_id="3030570" version_string="3.3.5"><![CDATA[Forum permissions]]></phrase>
   <phrase title="volkdev_qnc_perm_view_others" version_id="3030570" version_string="3.3.5"><![CDATA[View threads by others]]></phrase>
   <phrase title="volkdev_qnc_perm_view_content" version_id="3030570" version_string="3.3.5"><![CDATA[View thread content]]></phrase>
   <phrase title="volkdev_qnc_perm_post_thread" version_id="3030570" version_string="3.3.5"><![CDATA[Post new threads]]></phrase>

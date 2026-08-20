@@ -34,13 +34,13 @@ class PermTemplate extends AbstractController
 
         $availablePermissions = [
             'general' => [
-                'title' => \XF::phrase('general_permissions'),
+                'title' => \XF::phrase('volkdev_qnc_perm_group_general'),
                 'permissions' => [
                     'viewNode' => \XF::phrase('volkdev_qnc_perm_view'),
                 ]
             ],
             'forum' => [
-                'title' => \XF::phrase('forum_permissions'),
+                'title' => \XF::phrase('volkdev_qnc_perm_group_forum'),
                 'permissions' => [
                     'viewOthers' => \XF::phrase('volkdev_qnc_perm_view_others'),
                     'viewContent' => \XF::phrase('volkdev_qnc_perm_view_content'),
@@ -77,7 +77,8 @@ class PermTemplate extends AbstractController
 
     public function actionEdit(ParameterBag $params)
     {
-        $template = $this->assertRecordExists('VolkDev\QuickNode:PermTemplate', $params->template_id);
+        $templateId = $params->template_id ?: $this->filter('template_id', 'uint');
+        $template = $this->assertRecordExists('VolkDev\QuickNode:PermTemplate', $templateId);
         return $this->templateAddEdit($template);
     }
 
@@ -98,7 +99,6 @@ class PermTemplate extends AbstractController
             'display_order' => 'uint',
             'active' => 'bool',
             'admin_only' => 'bool',
-            'node_scope' => 'str',
             'node_ids' => 'array-uint',
             'user_group_scope' => 'str',
             'user_group_ids' => 'array-uint',
@@ -119,14 +119,17 @@ class PermTemplate extends AbstractController
             }
         }
 
+        $nodeIds = array_values(array_filter($input['node_ids']));
+        $nodeScope = !empty($nodeIds) ? 'selected' : 'all';
+
         $form->basicEntitySave($template, [
             'title' => $input['title'],
             'description' => $input['description'],
             'display_order' => $input['display_order'],
             'active' => $input['active'],
             'admin_only' => $input['admin_only'],
-            'node_scope' => in_array($input['node_scope'], ['all', 'selected']) ? $input['node_scope'] : 'all',
-            'node_ids' => $input['node_scope'] === 'selected' ? array_values(array_filter($input['node_ids'])) : [],
+            'node_scope' => $nodeScope,
+            'node_ids' => $nodeIds,
             'user_group_scope' => in_array($input['user_group_scope'], ['all', 'selected']) ? $input['user_group_scope'] : 'all',
             'user_group_ids' => $input['user_group_scope'] === 'selected' ? array_values(array_filter($input['user_group_ids'])) : [],
             'permissions' => $cleanedPermissions,
@@ -139,8 +142,9 @@ class PermTemplate extends AbstractController
     {
         $this->assertPostOnly();
 
-        if ($params->template_id) {
-            $template = $this->assertRecordExists('VolkDev\QuickNode:PermTemplate', $params->template_id);
+        $templateId = $params->template_id ?: $this->filter('template_id', 'uint');
+        if ($templateId) {
+            $template = $this->assertRecordExists('VolkDev\QuickNode:PermTemplate', $templateId);
         } else {
             $template = $this->em()->create('VolkDev\QuickNode:PermTemplate');
         }
@@ -152,7 +156,8 @@ class PermTemplate extends AbstractController
 
     public function actionDelete(ParameterBag $params)
     {
-        $template = $this->assertRecordExists('VolkDev\QuickNode:PermTemplate', $params->template_id);
+        $templateId = $params->template_id ?: $this->filter('template_id', 'uint');
+        $template = $this->assertRecordExists('VolkDev\QuickNode:PermTemplate', $templateId);
 
         /** @var \XF\ControllerPlugin\Delete $plugin */
         $plugin = $this->plugin('XF:Delete');

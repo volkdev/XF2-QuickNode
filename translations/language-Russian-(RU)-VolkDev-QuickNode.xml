@@ -131,6 +131,7 @@
   <phrase title="volkdev_qnc_confirm_delete_template_explain" version_id="3030570" version_string="3.3.5"><![CDATA[Пожалуйста, подтвердите удаление шаблона прав: {title}]]></phrase>
   <phrase title="volkdev_qnc_active" version_id="3030570" version_string="3.3.5"><![CDATA[Активен]]></phrase>
   <phrase title="volkdev_qnc_applicable_nodes" version_id="3030570" version_string="3.3.5"><![CDATA[Применимые разделы]]></phrase>
+  <phrase title="volkdev_qnc_applicable_nodes_explain" version_id="3030570" version_string="3.3.5"><![CDATA[Выберите разделы, в которых этот шаблон будет доступен для назначения. Выберите «Все разделы», чтобы сделать его глобально доступным.]]></phrase>
   <phrase title="volkdev_qnc_all_nodes" version_id="3030570" version_string="3.3.5"><![CDATA[Все разделы]]></phrase>
   <phrase title="volkdev_qnc_specified_nodes_only" version_id="3030570" version_string="3.3.5"><![CDATA[Только выбранные разделы]]></phrase>
   <phrase title="volkdev_qnc_applicable_groups" version_id="3030570" version_string="3.3.5"><![CDATA[Применимые группы пользователей]]></phrase>
@@ -141,6 +142,8 @@
   <phrase title="volkdev_qnc_admin_only_apply_explain" version_id="3030570" version_string="3.3.5"><![CDATA[Если включено, обычные модераторы с правами управления разделами на фронтенде не смогут назначать этот шаблон.]]></phrase>
   <phrase title="volkdev_qnc_enable_disable_template" version_id="3030570" version_string="3.3.5"><![CDATA[Включить / отключить шаблон]]></phrase>
   <phrase title="volkdev_qnc_perm_template_desc_explain" version_id="3030570" version_string="3.3.5"><![CDATA[Пояснение, что даёт этот шаблон. Будет отображаться подсказкой под названием шаблона на фронтенде.]]></phrase>
+  <phrase title="volkdev_qnc_perm_group_general" version_id="3030570" version_string="3.3.5"><![CDATA[Общие права]]></phrase>
+  <phrase title="volkdev_qnc_perm_group_forum" version_id="3030570" version_string="3.3.5"><![CDATA[Права форума]]></phrase>
   <phrase title="volkdev_qnc_perm_view_others" version_id="3030570" version_string="3.3.5"><![CDATA[Просмотр чужих тем]]></phrase>
   <phrase title="volkdev_qnc_perm_view_content" version_id="3030570" version_string="3.3.5"><![CDATA[Просмотр содержимого тем]]></phrase>
   <phrase title="volkdev_qnc_perm_post_thread" version_id="3030570" version_string="3.3.5"><![CDATA[Создание новых тем]]></phrase>
