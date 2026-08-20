@@ -12,11 +12,12 @@ This plugin is built to delegate forum structure management. It enables you to a
 ## Features
 
 * **Frontend Node Management:** Create, modify, and delete forums, categories, and link-forums natively from the public view.
+* **Permission Templates:** Administrators can pre-configure permission presets in the ACP that frontline moderators can apply to their nodes with a single click.
 * **Permission Integration:** Uses the native XenForo permission system. Node management rights can be granted globally or restricted to specific parent nodes.
 * **Deletion Approval System:** When a moderator deletes a node, it is hidden rather than removed from the database. Root administrators can review, approve, or revert the deletion from the admin panel.
 * **Private Nodes:** A single checkbox during node creation configures the permissions so the forum is only visible to the creator and selected administrative groups.
-* **Protected Groups:** Prevents frontend moderators from altering the permissions of critical system groups or administrators.
-* **Audit Logs and Rollbacks:** All actions are logged. Administrators can view the exact before-and-after states and revert any changes with one click.
+* **Protected Groups:** Prevents frontend moderators from altering the permissions of critical system groups or administrators (configurable via ACP).
+* **Audit Logs and Rollbacks:** All actions are logged. Administrators can view the exact before-and-after states (with clean human-readable permission translations) and revert any changes with one click.
 
 ## Screenshots
 
