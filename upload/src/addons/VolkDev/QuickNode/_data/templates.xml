@@ -370,7 +370,7 @@
         <xf:submitrow submit="{{ phrase('save_permissions') }}" icon="save" />
     </div>
 </xf:form>]]></template>
-  <template type="public" title="volkdev_qn_permissions_list" version_id="1010070" version_string="1.1.0"><![CDATA[<xf:title>{{ phrase('volkdev_qnc_permissions_list_title', {'title': $node.title}) }}</xf:title>
+  <template type="public" title="volkdev_qn_permissions_list" version_id="3030470" version_string="3.3.4"><![CDATA[<xf:title>{{ phrase('volkdev_qnc_permissions_list_title', {'title': $node.title}) }}</xf:title>
 
 <div class="block">
     <div class="block-container">
@@ -379,7 +379,11 @@
                 <xf:foreach loop="$groups" value="$group">
                     <xf:formrow rowclass="formRow--button" label="{$group.title}">
                         <xf:button href="{{ link('quick-node/permissions/edit', null, {'node_id': $node.node_id, 'user_group_id': $group.user_group_id}) }}" class="button--link">
-                            {{ phrase('volkdev_qnc_configure_permissions') }}
+                            <xf:if is="in_array($group.user_group_id, $customPermGroupIds)">
+                                {{ phrase('volkdev_qnc_edit_permissions') }}
+                            <xf:else />
+                                {{ phrase('volkdev_qnc_configure_permissions') }}
+                            </xf:if>
                         </xf:button>
                     </xf:formrow>
                 </xf:foreach>

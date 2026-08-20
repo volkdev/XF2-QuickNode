@@ -327,9 +327,22 @@ class QuickNode extends AbstractController
             $groupFinder->where('user_group_id', '<>', $protectedIds);
         }
 
+        $customPermEntries = $this->finder('XF:PermissionEntryContent')
+            ->where('content_type', 'node')
+            ->where('content_id', $node->node_id)
+            ->where('user_id', 0)
+            ->where('user_group_id', '>', 0)
+            ->fetch();
+
+        $customPermGroupIds = [];
+        foreach ($customPermEntries as $entry) {
+            $customPermGroupIds[$entry->user_group_id] = $entry->user_group_id;
+        }
+
         $viewParams = [
             'node' => $node,
-            'groups' => $groupFinder->fetch()
+            'groups' => $groupFinder->fetch(),
+            'customPermGroupIds' => $customPermGroupIds
         ];
 
         return $this->view('VolkDev\QuickNode:QuickNode\Permissions', 'volkdev_qn_permissions_list', $viewParams);

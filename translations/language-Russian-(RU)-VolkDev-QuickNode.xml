@@ -113,6 +113,7 @@
   <phrase title="volkdev_qnc_permissions_list_title" version_id="1010070" version_string="1.1.0"><![CDATA[Управление правами: {title}]]></phrase>
   <phrase title="volkdev_qnc_permissions_updated" version_id="1010070" version_string="1.1.0"><![CDATA[Права успешно обновлены!]]></phrase>
   <phrase title="volkdev_qnc_configure_permissions" version_id="1010070" version_string="1.1.0"><![CDATA[Настроить права]]></phrase>
+  <phrase title="volkdev_qnc_edit_permissions" version_id="3030470" version_string="3.3.4"><![CDATA[Редактировать права]]></phrase>
   <phrase title="volkdev_qnc_no_groups_available" version_id="1010070" version_string="1.1.0"><![CDATA[Нет групп, доступных для управления.]]></phrase>
 
   <!-- Permission values -->
