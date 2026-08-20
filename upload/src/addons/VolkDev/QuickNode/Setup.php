@@ -19,11 +19,11 @@ class Setup extends AbstractSetup
     {
         $this->schemaManager()->createTable('xf_volkdev_qnc_log', function (Create $table) {
             $table->addColumn('log_id', 'int')->autoIncrement();
-            $table->addColumn('user_id', 'int')->comment('Пользователь, совершивший действие');
-            $table->addColumn('node_id', 'int')->comment('ID раздела, с которым производилось действие');
-            $table->addColumn('action', 'varchar', 50)->comment('Тип действия: create, edit, perm_change, delete');
-            $table->addColumn('old_data', 'mediumblob')->nullable()->comment('JSON предыдущего состояния');
-            $table->addColumn('new_data', 'mediumblob')->nullable()->comment('JSON нового состояния');
+            $table->addColumn('user_id', 'int')->comment('User who performed the action');
+            $table->addColumn('node_id', 'int')->comment('Node ID affected by the action');
+            $table->addColumn('action', 'varchar', 50)->comment('Action type: create, edit, perm_change, delete');
+            $table->addColumn('old_data', 'mediumblob')->nullable()->comment('JSON of previous state');
+            $table->addColumn('new_data', 'mediumblob')->nullable()->comment('JSON of new state');
             $table->addColumn('log_date', 'int')->comment('UNIX timestamp');
             $table->addColumn('ip_address', 'varbinary', 16)->nullable()->setDefault(null)->comment('IP address of the user');
             $table->addKey('user_id');
@@ -96,8 +96,8 @@ class Setup extends AbstractSetup
         ];
 
         $this->db()->insert('xf_volkdev_qnc_perm_template', [
-            'title' => 'Права модератора',
-            'description' => 'Мягкое удаление, перемещение, закрепление, открытие/закрытие тем.',
+            'title' => 'Moderator permissions',
+            'description' => 'Soft delete, move, stick, open/close threads.',
             'display_order' => 1,
             'active' => 1,
             'node_scope' => 'all',
@@ -109,8 +109,8 @@ class Setup extends AbstractSetup
         ]);
 
         $this->db()->insert('xf_volkdev_qnc_perm_template', [
-            'title' => 'Права администратора',
-            'description' => 'Все права модератора, плюс выдача предупреждений и редактирование чужих сообщений.',
+            'title' => 'Administrator permissions',
+            'description' => 'All moderator permissions, plus issuing warnings and editing others posts.',
             'display_order' => 2,
             'active' => 1,
             'node_scope' => 'all',
