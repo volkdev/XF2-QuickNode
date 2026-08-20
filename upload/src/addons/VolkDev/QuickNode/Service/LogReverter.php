@@ -71,16 +71,33 @@ class LogReverter extends AbstractService
         if ($log->Node && $log->old_data) {
             $log->Node->bulkSet([
                 'title' => $log->old_data['title'] ?? $log->Node->title,
-                'description' => $log->old_data['description'] ?? $log->Node->description
+                'description' => $log->old_data['description'] ?? $log->Node->description,
+                'parent_node_id' => $log->old_data['parent_node_id'] ?? $log->Node->parent_node_id,
+                'display_order' => $log->old_data['display_order'] ?? $log->Node->display_order
             ]);
 
             if ($log->Node->node_type_id == 'Forum' && isset($log->old_data['allow_posting'])) {
                 $typeData = $log->Node->getDataRelationOrDefault();
                 $typeData->allow_posting = $log->old_data['allow_posting'];
                 $log->Node->addCascadedSave($typeData);
+            } elseif ($log->Node->node_type_id == 'LinkForum' && isset($log->old_data['link_url'])) {
+                $typeData = $log->Node->getDataRelationOrDefault();
+                $typeData->link_url = $log->old_data['link_url'];
+                $log->Node->addCascadedSave($typeData);
             }
 
             $log->Node->save();
+
+            if (isset($log->old_data['is_private'])) {
+                /** @var \VolkDev\QuickNode\Service\NodePrivacy $privacyService */
+                $privacyService = \XF::app()->service('VolkDev\QuickNode:NodePrivacy');
+                if ($log->old_data['is_private']) {
+                    $privacyService->makePrivate($log->node_id);
+                } else {
+                    $privacyService->makePublic($log->node_id);
+                }
+            }
+
             return true;
         }
         return false;

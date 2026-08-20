@@ -455,6 +455,14 @@ class QuickNode extends AbstractController
                 $oldPerms[$entry->permission_group_id][$entry->permission_id] = ($entry->permission_value === 'use_int') ? (int)$entry->permission_value_int : $entry->permission_value;
             }
 
+            foreach ($oldPerms as $pGroup => $pIds) {
+                foreach ($pIds as $pId => $oldValue) {
+                    if (!isset($permissions[$pGroup][$pId])) {
+                        $permissions[$pGroup][$pId] = 'reset';
+                    }
+                }
+            }
+
             $updater = $this->service('XF:UpdatePermissions');
             $updater->setContent('node', $node->node_id);
             $updater->setUserGroup($targetGroup);
