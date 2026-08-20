@@ -142,29 +142,10 @@
   <phrase title="volkdev_qnc_admin_only_apply_explain" version_id="3030570" version_string="3.3.5"><![CDATA[Если включено, обычные модераторы с правами управления разделами на фронтенде не смогут назначать этот шаблон.]]></phrase>
   <phrase title="volkdev_qnc_enable_disable_template" version_id="3030570" version_string="3.3.5"><![CDATA[Включить / отключить шаблон]]></phrase>
   <phrase title="volkdev_qnc_perm_template_desc_explain" version_id="3030570" version_string="3.3.5"><![CDATA[Пояснение, что даёт этот шаблон. Будет отображаться подсказкой под названием шаблона на фронтенде.]]></phrase>
-  <phrase title="volkdev_qnc_perm_group_general" version_id="3030570" version_string="3.3.5"><![CDATA[Общие права]]></phrase>
-  <phrase title="volkdev_qnc_perm_group_forum" version_id="3030570" version_string="3.3.5"><![CDATA[Права форума]]></phrase>
-  <phrase title="volkdev_qnc_perm_view_others" version_id="3030570" version_string="3.3.5"><![CDATA[Просмотр чужих тем]]></phrase>
-  <phrase title="volkdev_qnc_perm_view_content" version_id="3030570" version_string="3.3.5"><![CDATA[Просмотр содержимого тем]]></phrase>
-  <phrase title="volkdev_qnc_perm_post_thread" version_id="3030570" version_string="3.3.5"><![CDATA[Создание новых тем]]></phrase>
-  <phrase title="volkdev_qnc_perm_post_reply" version_id="3030570" version_string="3.3.5"><![CDATA[Ответ в темах]]></phrase>
-  <phrase title="volkdev_qnc_perm_delete_own_post" version_id="3030570" version_string="3.3.5"><![CDATA[Удаление своих сообщений]]></phrase>
-  <phrase title="volkdev_qnc_perm_edit_own_post" version_id="3030570" version_string="3.3.5"><![CDATA[Редактирование своих сообщений]]></phrase>
-  <phrase title="volkdev_qnc_perm_upload_attachment" version_id="3030570" version_string="3.3.5"><![CDATA[Загрузка вложений]]></phrase>
-  <phrase title="volkdev_qnc_perm_react" version_id="3030570" version_string="3.3.5"><![CDATA[Реакции на сообщения]]></phrase>
-  <phrase title="volkdev_qnc_perm_manage_any_thread" version_id="3030570" version_string="3.3.5"><![CDATA[Управление любыми темами (заголовок, префикс и т.д.)]]></phrase>
-  <phrase title="volkdev_qnc_perm_delete_any_thread" version_id="3030570" version_string="3.3.5"><![CDATA[Удаление любых тем]]></phrase>
-  <phrase title="volkdev_qnc_perm_delete_any_post" version_id="3030570" version_string="3.3.5"><![CDATA[Удаление любых сообщений]]></phrase>
-  <phrase title="volkdev_qnc_perm_lock_unlock" version_id="3030570" version_string="3.3.5"><![CDATA[Закрытие / открытие тем]]></phrase>
-  <phrase title="volkdev_qnc_perm_stick_unstick" version_id="3030570" version_string="3.3.5"><![CDATA[Закрепление / открепление тем]]></phrase>
-  <phrase title="volkdev_qnc_perm_inline_mod" version_id="3030570" version_string="3.3.5"><![CDATA[Использование встроенной модерации]]></phrase>
-  <phrase title="volkdev_qnc_perm_edit_any_post" version_id="3030570" version_string="3.3.5"><![CDATA[Редактирование любых сообщений]]></phrase>
-  <phrase title="volkdev_qnc_perm_warn" version_id="3030570" version_string="3.3.5"><![CDATA[Выдача предупреждений]]></phrase>
-  <phrase title="volkdev_qnc_perm_view_deleted" version_id="3030570" version_string="3.3.5"><![CDATA[Просмотр удалённых тем и сообщений]]></phrase>
-  <phrase title="volkdev_qnc_perm_view_moderated" version_id="3030570" version_string="3.3.5"><![CDATA[Просмотр тем на модерации]]></phrase>
-  <phrase title="volkdev_qnc_perm_undelete" version_id="3030570" version_string="3.3.5"><![CDATA[Восстановление удалённых тем и сообщений]]></phrase>
-  <phrase title="volkdev_qnc_perm_approve_unapprove" version_id="3030570" version_string="3.3.5"><![CDATA[Одобрение / отклонение тем]]></phrase>
-  <phrase title="volkdev_qnc_perm_hard_delete_thread" version_id="3030570" version_string="3.3.5"><![CDATA[Физическое (безвозвратное) удаление любых тем]]></phrase>
+  <phrase title="option.qnc_mod_restricted_groups" version_id="3030670" version_string="3.3.6"><![CDATA[Группы, которым нельзя выдавать права модератора]]></phrase>
+  <phrase title="option_explain.qnc_mod_restricted_groups" version_id="3030670" version_string="3.3.6"><![CDATA[Выберите группы пользователей, которым обычные пользователи не смогут выдать права модератора через Quick Node Creator.]]></phrase>
+  <phrase title="volkdev_qnc_mod_perms_admin_only" version_id="3030670" version_string="3.3.6"><![CDATA[Только администраторы могут выдавать права модератора.]]></phrase>
+  <phrase title="volkdev_qnc_mod_perms_restricted_group" version_id="3030670" version_string="3.3.6"><![CDATA[Невозможно выдать права модератора этой группе. Ограничение настроено в панели управления.]]></phrase>
 
   <!-- Permission values -->
   <phrase title="volkdev_qnc_perm_view" version_id="1010070" version_string="1.1.0"><![CDATA[Просмотр раздела]]></phrase>

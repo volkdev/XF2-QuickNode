@@ -142,29 +142,10 @@
   <phrase title="volkdev_qnc_admin_only_apply_explain" version_id="3030570" version_string="3.3.5"><![CDATA[If enabled, regular moderators using Quick Node Creator on the front-end will not be able to assign this template.]]></phrase>
   <phrase title="volkdev_qnc_enable_disable_template" version_id="3030570" version_string="3.3.5"><![CDATA[Enable / disable template]]></phrase>
   <phrase title="volkdev_qnc_perm_template_desc_explain" version_id="3030570" version_string="3.3.5"><![CDATA[Explain what this template does. This text will be shown as a hint under the template title on the front-end.]]></phrase>
-  <phrase title="volkdev_qnc_perm_group_general" version_id="3030570" version_string="3.3.5"><![CDATA[General permissions]]></phrase>
-  <phrase title="volkdev_qnc_perm_group_forum" version_id="3030570" version_string="3.3.5"><![CDATA[Forum permissions]]></phrase>
-  <phrase title="volkdev_qnc_perm_view_others" version_id="3030570" version_string="3.3.5"><![CDATA[View threads by others]]></phrase>
-  <phrase title="volkdev_qnc_perm_view_content" version_id="3030570" version_string="3.3.5"><![CDATA[View thread content]]></phrase>
-  <phrase title="volkdev_qnc_perm_post_thread" version_id="3030570" version_string="3.3.5"><![CDATA[Post new threads]]></phrase>
-  <phrase title="volkdev_qnc_perm_post_reply" version_id="3030570" version_string="3.3.5"><![CDATA[Post replies]]></phrase>
-  <phrase title="volkdev_qnc_perm_delete_own_post" version_id="3030570" version_string="3.3.5"><![CDATA[Delete own posts]]></phrase>
-  <phrase title="volkdev_qnc_perm_edit_own_post" version_id="3030570" version_string="3.3.5"><![CDATA[Edit own posts]]></phrase>
-  <phrase title="volkdev_qnc_perm_upload_attachment" version_id="3030570" version_string="3.3.5"><![CDATA[Upload attachments]]></phrase>
-  <phrase title="volkdev_qnc_perm_react" version_id="3030570" version_string="3.3.5"><![CDATA[React to posts]]></phrase>
-  <phrase title="volkdev_qnc_perm_manage_any_thread" version_id="3030570" version_string="3.3.5"><![CDATA[Manage any thread (edit title, prefix, etc.)]]></phrase>
-  <phrase title="volkdev_qnc_perm_delete_any_thread" version_id="3030570" version_string="3.3.5"><![CDATA[Delete any thread]]></phrase>
-  <phrase title="volkdev_qnc_perm_delete_any_post" version_id="3030570" version_string="3.3.5"><![CDATA[Delete any post]]></phrase>
-  <phrase title="volkdev_qnc_perm_lock_unlock" version_id="3030570" version_string="3.3.5"><![CDATA[Lock / unlock threads]]></phrase>
-  <phrase title="volkdev_qnc_perm_stick_unstick" version_id="3030570" version_string="3.3.5"><![CDATA[Stick / unstick threads]]></phrase>
-  <phrase title="volkdev_qnc_perm_inline_mod" version_id="3030570" version_string="3.3.5"><![CDATA[Use inline moderation]]></phrase>
-  <phrase title="volkdev_qnc_perm_edit_any_post" version_id="3030570" version_string="3.3.5"><![CDATA[Edit any post]]></phrase>
-  <phrase title="volkdev_qnc_perm_warn" version_id="3030570" version_string="3.3.5"><![CDATA[Give warnings]]></phrase>
-  <phrase title="volkdev_qnc_perm_view_deleted" version_id="3030570" version_string="3.3.5"><![CDATA[View deleted threads / posts]]></phrase>
-  <phrase title="volkdev_qnc_perm_view_moderated" version_id="3030570" version_string="3.3.5"><![CDATA[View moderated / unapproved threads]]></phrase>
-  <phrase title="volkdev_qnc_perm_undelete" version_id="3030570" version_string="3.3.5"><![CDATA[Undelete threads / posts]]></phrase>
-  <phrase title="volkdev_qnc_perm_approve_unapprove" version_id="3030570" version_string="3.3.5"><![CDATA[Approve / unapprove threads]]></phrase>
-  <phrase title="volkdev_qnc_perm_hard_delete_thread" version_id="3030570" version_string="3.3.5"><![CDATA[Hard delete any thread]]></phrase>
+  <phrase title="option.qnc_mod_restricted_groups" version_id="3030670" version_string="3.3.6"><![CDATA[Groups restricted from moderator permissions]]></phrase>
+  <phrase title="option_explain.qnc_mod_restricted_groups" version_id="3030670" version_string="3.3.6"><![CDATA[Select user groups that cannot be granted moderator permissions via Quick Node Creator by non-administrators.]]></phrase>
+  <phrase title="volkdev_qnc_mod_perms_admin_only" version_id="3030670" version_string="3.3.6"><![CDATA[Only administrators can grant moderator-level permissions.]]></phrase>
+  <phrase title="volkdev_qnc_mod_perms_restricted_group" version_id="3030670" version_string="3.3.6"><![CDATA[Cannot grant moderator permissions to this user group. This restriction is configured in the ACP settings.]]></phrase>
 
   <!-- Permission values -->
   <phrase title="volkdev_qnc_perm_view" version_id="1010070" version_string="1.1.0"><![CDATA[View node]]></phrase>

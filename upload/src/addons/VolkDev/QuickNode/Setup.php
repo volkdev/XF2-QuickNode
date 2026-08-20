@@ -72,7 +72,7 @@ class Setup extends AbstractSetup
             'forum' => [
                 'manageAnyThread' => 'content_allow',
                 'deleteAnyThread' => 'content_allow',
-                'deleteAny' => 'content_allow',
+                'deleteAnyPost' => 'content_allow',
                 'lockUnlockThread' => 'content_allow',
                 'stickUnstickThread' => 'content_allow',
                 'inlineMod' => 'content_allow',
@@ -83,12 +83,11 @@ class Setup extends AbstractSetup
             'forum' => [
                 'manageAnyThread' => 'content_allow',
                 'deleteAnyThread' => 'content_allow',
-                'deleteAny' => 'content_allow',
+                'deleteAnyPost' => 'content_allow',
                 'lockUnlockThread' => 'content_allow',
                 'stickUnstickThread' => 'content_allow',
                 'inlineMod' => 'content_allow',
                 'editAnyPost' => 'content_allow',
-                'warn' => 'content_allow',
                 'viewDeleted' => 'content_allow',
                 'viewModerated' => 'content_allow',
                 'undelete' => 'content_allow',

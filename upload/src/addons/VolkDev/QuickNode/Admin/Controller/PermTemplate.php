@@ -79,12 +79,12 @@ class PermTemplate extends AbstractController
             foreach ($input['permissions'] as $group => $perms) {
                 if (!is_array($perms)) continue;
                 foreach ($perms as $permId => $val) {
-                    if ($val === 'unset' || $val === '' || $val === '0' || $val === 0) {
+                    if ($val === 'unset' || $val === '') {
                         continue;
                     }
-                    if (in_array($val, ['content_allow', 'reset', 'deny'])) {
+                    if (in_array($val, ['content_allow', 'reset', 'deny'], true)) {
                         $cleanedPermissions[$group][$permId] = $val;
-                    } else if (is_numeric($val) && intval($val) > 0) {
+                    } else if (is_numeric($val)) {
                         $cleanedPermissions[$group][$permId] = intval($val);
                     }
                 }

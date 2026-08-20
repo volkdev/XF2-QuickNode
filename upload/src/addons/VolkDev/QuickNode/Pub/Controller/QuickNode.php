@@ -361,10 +361,7 @@ class QuickNode extends AbstractController
 
         $visitor = \XF::visitor();
 
-        $protectedRaw = \XF::options()->qnc_protected_groups ?? '';
-        $protectedIds = array_filter(array_map('intval', explode(',', $protectedRaw)));
-
-        if (!$visitor->is_admin && ($targetGroup->qnc_protected || in_array($targetGroup->user_group_id, $protectedIds))) {
+        if (!$visitor->is_admin && $targetGroup->qnc_protected) {
             throw $this->exception($this->noPermission(\XF::phrase('volkdev_qnc_protected_group')));
         }
 
@@ -395,6 +392,16 @@ class QuickNode extends AbstractController
             $selectedTemplateNames = [];
             $hasModAdminPerms = false;
 
+            $sensitivePermIds = [
+                'manageAnyThread', 'deleteAnyThread', 'deleteAnyPost',
+                'hardDeleteAnyThread', 'hardDeleteAnyPost',
+                'editAnyPost', 'warn', 'inlineMod',
+                'stickUnstickThread', 'lockUnlockThread',
+                'approveUnapprove', 'viewModerated', 'viewDeleted',
+                'undelete', 'manageAnyTag', 'threadReplyBan',
+            ];
+            $priority = ['deny' => 3, 'content_allow' => 2, 'reset' => 1];
+
             if (!empty($input['templates'])) {
                 foreach ($input['templates'] as $selectedTemplateId) {
                     if (isset($applicableTemplates[$selectedTemplateId])) {
@@ -404,10 +411,22 @@ class QuickNode extends AbstractController
                         if (!empty($tpl->permissions)) {
                             foreach ($tpl->permissions as $pGroup => $pList) {
                                 foreach ($pList as $pId => $pVal) {
-                                    $permissions[$pGroup][$pId] = $pVal;
-                                    if (in_array($pId, ['manageAnyThread', 'deleteAnyThread', 'deleteAny', 'editAnyPost', 'warn', 'hardDeleteAnyThread', 'inlineMod'])) {
+                                    $isGranting = ($pVal === 'content_allow' || (is_numeric($pVal) && (int)$pVal > 0));
+                                    if ($isGranting && in_array($pId, $sensitivePermIds, true)) {
                                         $hasModAdminPerms = true;
                                     }
+
+                                    if (isset($permissions[$pGroup][$pId])) {
+                                        $existing = $permissions[$pGroup][$pId];
+                                        if (isset($priority[$pVal]) && isset($priority[$existing])) {
+                                            if ($priority[$pVal] <= $priority[$existing]) {
+                                                continue;
+                                            }
+                                        } else if (is_numeric($pVal) && is_numeric($existing)) {
+                                            $pVal = max((int)$pVal, (int)$existing);
+                                        }
+                                    }
+                                    $permissions[$pGroup][$pId] = $pVal;
                                 }
                             }
                         }
@@ -415,9 +434,13 @@ class QuickNode extends AbstractController
                 }
             }
 
-            // Block moderator/admin permissions for Unregistered (1) and Registered (2) groups
-            if (in_array($groupId, [1, 2]) && $hasModAdminPerms) {
+            if ($groupId === 1 && $hasModAdminPerms) {
                 return $this->error(\XF::phrase('volkdev_qnc_cannot_give_mod_to_base_groups'));
+            }
+
+            $restrictedIds = \XF::options()->qnc_mod_restricted_groups ?? [1, 2];
+            if (in_array($groupId, $restrictedIds) && $hasModAdminPerms && !$visitor->is_admin) {
+                return $this->error(\XF::phrase('volkdev_qnc_mod_perms_restricted_group'));
             }
 
             $oldEntries = $this->finder('XF:PermissionEntryContent')
@@ -429,7 +452,7 @@ class QuickNode extends AbstractController
 
             $oldPerms = [];
             foreach ($oldEntries as $entry) {
-                $oldPerms[$entry->permission_group_id][$entry->permission_id] = $entry->permission_value;
+                $oldPerms[$entry->permission_group_id][$entry->permission_id] = ($entry->permission_value === 'use_int') ? (int)$entry->permission_value_int : $entry->permission_value;
             }
 
             $updater = $this->service('XF:UpdatePermissions');
@@ -471,7 +494,7 @@ class QuickNode extends AbstractController
 
         $currentPerms = [];
         foreach ($entries as $entry) {
-            $currentPerms[$entry->permission_group_id][$entry->permission_id] = $entry->permission_value;
+            $currentPerms[$entry->permission_group_id][$entry->permission_id] = ($entry->permission_value === 'use_int') ? (int)$entry->permission_value_int : $entry->permission_value;
         }
 
         $viewState = $currentPerms['general']['viewNode'] ?? 'reset';
