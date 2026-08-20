@@ -45,11 +45,7 @@ This plugin is built to delegate forum structure management. It enables you to a
    * *Can manage group permissions from the front-end*
 3. Navigate to **Options -> Quick Node Creator** to configure administrative groups that can bypass private node restrictions.
 
-## Localization
-If you need the Russian translation:
-1. Go to **Appearance -> Languages -> Import a language** in your Admin Control Panel.
-2. Choose the `translations/language-Russian-(RU)-VolkDev-QuickNode.xml` file.
-3. Select "Overwrite language: Russian (RU)" and click **Import**.
+
 
 ## License
 Licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
