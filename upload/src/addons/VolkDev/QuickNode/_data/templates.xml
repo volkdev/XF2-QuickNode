@@ -145,9 +145,35 @@
     <div class="block-container">
         <div class="block-body">
             <xf:foreach loop="$log.old_data" key="$key" value="$val">
-                <xf:formrow label="{$key}">
-                    <xf:macro name="log_array_renderer" arg-data="{$val}" />
-                </xf:formrow>
+                <xf:if is="$key == 'group_id'">
+                    <xf:formrow label="{{ phrase('user_group') }}">
+                        <xf:if is="{$userGroups.{$val}}">
+                            {$val} ({$userGroups.{$val}.title})
+                        <xf:else />
+                            {$val}
+                        </xf:if>
+                    </xf:formrow>
+                <xf:elseif is="$key == 'node_title'" />
+                    <xf:formrow label="{{ phrase('node') }}">
+                        {$val}
+                    </xf:formrow>
+                <xf:elseif is="$key == 'perms'" />
+                    <xf:formrow label="{{ phrase('permissions') }}">
+                        <xf:macro name="log_array_renderer" arg-data="{$val}" arg-isPerms="1" />
+                    </xf:formrow>
+                <xf:elseif is="$key == 'templates'" />
+                    <xf:formrow label="{{ phrase('volkdev_qnc_perm_templates') }}">
+                        <xf:macro name="log_array_renderer" arg-data="{$val}" />
+                    </xf:formrow>
+                <xf:elseif is="$key == 'is_private'" />
+                    <xf:formrow label="{{ phrase('private_node') }}">
+                        <xf:macro name="log_array_renderer" arg-data="{$val}" />
+                    </xf:formrow>
+                <xf:else />
+                    <xf:formrow label="{$key}">
+                        <xf:macro name="log_array_renderer" arg-data="{$val}" />
+                    </xf:formrow>
+                </xf:if>
             </xf:foreach>
         </div>
     </div>
@@ -160,9 +186,35 @@
     <div class="block-container">
         <div class="block-body">
             <xf:foreach loop="$log.new_data" key="$key" value="$val">
-                <xf:formrow label="{$key}">
-                    <xf:macro name="log_array_renderer" arg-data="{$val}" />
-                </xf:formrow>
+                <xf:if is="$key == 'group_id'">
+                    <xf:formrow label="{{ phrase('user_group') }}">
+                        <xf:if is="{$userGroups.{$val}}">
+                            {$val} ({$userGroups.{$val}.title})
+                        <xf:else />
+                            {$val}
+                        </xf:if>
+                    </xf:formrow>
+                <xf:elseif is="$key == 'node_title'" />
+                    <xf:formrow label="{{ phrase('node') }}">
+                        {$val}
+                    </xf:formrow>
+                <xf:elseif is="$key == 'perms'" />
+                    <xf:formrow label="{{ phrase('permissions') }}">
+                        <xf:macro name="log_array_renderer" arg-data="{$val}" arg-isPerms="1" />
+                    </xf:formrow>
+                <xf:elseif is="$key == 'templates'" />
+                    <xf:formrow label="{{ phrase('volkdev_qnc_perm_templates') }}">
+                        <xf:macro name="log_array_renderer" arg-data="{$val}" />
+                    </xf:formrow>
+                <xf:elseif is="$key == 'is_private'" />
+                    <xf:formrow label="{{ phrase('private_node') }}">
+                        <xf:macro name="log_array_renderer" arg-data="{$val}" />
+                    </xf:formrow>
+                <xf:else />
+                    <xf:formrow label="{$key}">
+                        <xf:macro name="log_array_renderer" arg-data="{$val}" />
+                    </xf:formrow>
+                </xf:if>
             </xf:foreach>
         </div>
     </div>
@@ -177,15 +229,29 @@
 </div>
 </xf:if>
 
-<xf:macro name="log_array_renderer" arg-data="!">
+<xf:macro name="log_array_renderer" arg-data="!" arg-isPerms="0" arg-parentKey="">
     <xf:if is="is_array($data)">
         <ul style="list-style-type: none; margin: 0; padding: 0;">
             <xf:foreach loop="$data" key="$k" value="$v">
                 <li style="margin-bottom: 3px;">
-                    <strong><xf:if is="is_numeric($k)">- <xf:else />{$k}: </xf:if></strong> 
+                    <strong>
+                        <xf:if is="is_numeric($k)">
+                            - 
+                        <xf:else />
+                            <xf:if is="$isPerms">
+                                <xf:if is="$parentKey">
+                                    {{ phrase_dynamic('permission.' . $parentKey . '_' . $k) }}: 
+                                <xf:else />
+                                    {{ phrase_dynamic('permission_interface.' . $k) }}: 
+                                </xf:if>
+                            <xf:else />
+                                {$k}: 
+                            </xf:if>
+                        </xf:if>
+                    </strong> 
                     <xf:if is="is_array($v)">
                         <div style="padding-left: 15px; border-left: 2px solid #dfdfdf; margin-left: 5px; margin-top: 3px;">
-                            <xf:macro name="log_array_renderer" arg-data="{$v}" />
+                            <xf:macro name="log_array_renderer" arg-data="{$v}" arg-isPerms="{$isPerms}" arg-parentKey="{$k}" />
                         </div>
                     <xf:else />
                         <xf:if is="$v === 'content_allow'">

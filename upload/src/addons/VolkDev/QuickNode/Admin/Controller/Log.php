@@ -74,7 +74,12 @@ class Log extends AbstractController
         $logId = $this->filter('log_id', 'uint');
         $log = $this->assertRecordExists('VolkDev\QuickNode:Log', $logId);
         
-        return $this->view('VolkDev\QuickNode:Log\View', 'volkdev_qn_log_view', ['log' => $log]);
+        $userGroups = $this->repository('XF:UserGroup')->findUserGroupsForList()->fetch();
+        
+        return $this->view('VolkDev\QuickNode:Log\View', 'volkdev_qn_log_view', [
+            'log' => $log,
+            'userGroups' => $userGroups
+        ]);
     }
 
     public function actionApprove()
