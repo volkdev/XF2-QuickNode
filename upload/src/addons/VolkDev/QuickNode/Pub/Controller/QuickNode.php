@@ -368,18 +368,16 @@ class QuickNode extends AbstractController
             throw $this->exception($this->noPermission(\XF::phrase('volkdev_qnc_protected_group')));
         }
 
+        /** @var \VolkDev\QuickNode\Repository\PermTemplate $templateRepo */
+        $templateRepo = $this->repository('VolkDev\QuickNode:PermTemplate');
+        $applicableTemplates = $templateRepo->getApplicableTemplates($node->node_id, $groupId, $visitor);
+
         if ($this->isPost()) {
             $input = $this->filter([
                 'view' => 'str',
                 'post' => 'str',
-                'is_mod' => 'bool',
-                'is_admin' => 'bool'
+                'templates' => 'array-uint'
             ]);
-
-            // Block moderator/admin permissions for Unregistered (1) and Registered (2) groups
-            if (in_array($groupId, [1, 2]) && ($input['is_mod'] || $input['is_admin'])) {
-                return $this->error(\XF::phrase('volkdev_qnc_cannot_give_mod_to_base_groups'));
-            }
 
             $permissions = [];
 
@@ -394,21 +392,33 @@ class QuickNode extends AbstractController
                 $permissions['forum']['postReply'] = $input['post'];
             }
 
-            $modPerm = $input['is_mod'] || $input['is_admin'] ? 'content_allow' : 'reset';
-            $permissions['forum']['manageAnyThread'] = $modPerm; 
-            $permissions['forum']['deleteAnyThread'] = $modPerm; 
-            $permissions['forum']['deleteAny'] = $modPerm; 
-            $permissions['forum']['lockUnlockThread'] = $modPerm; 
-            $permissions['forum']['stickUnstickThread'] = $modPerm; 
-            $permissions['forum']['inlineMod'] = $modPerm; 
+            $selectedTemplateNames = [];
+            $hasModAdminPerms = false;
 
-            $adminPerm = $input['is_admin'] ? 'content_allow' : 'reset';
-            $permissions['forum']['editAnyPost'] = $adminPerm; 
-            $permissions['forum']['warn'] = $adminPerm; 
-            $permissions['forum']['viewDeleted'] = $adminPerm; 
-            $permissions['forum']['viewModerated'] = $adminPerm; 
-            $permissions['forum']['undelete'] = $adminPerm; 
-            $permissions['forum']['approveUnapprove'] = $adminPerm; 
+            if (!empty($input['templates'])) {
+                foreach ($input['templates'] as $selectedTemplateId) {
+                    if (isset($applicableTemplates[$selectedTemplateId])) {
+                        $tpl = $applicableTemplates[$selectedTemplateId];
+                        $selectedTemplateNames[] = $tpl->title;
+
+                        if (!empty($tpl->permissions)) {
+                            foreach ($tpl->permissions as $pGroup => $pList) {
+                                foreach ($pList as $pId => $pVal) {
+                                    $permissions[$pGroup][$pId] = $pVal;
+                                    if (in_array($pId, ['manageAnyThread', 'deleteAnyThread', 'deleteAny', 'editAnyPost', 'warn', 'hardDeleteAnyThread', 'inlineMod'])) {
+                                        $hasModAdminPerms = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Block moderator/admin permissions for Unregistered (1) and Registered (2) groups
+            if (in_array($groupId, [1, 2]) && $hasModAdminPerms) {
+                return $this->error(\XF::phrase('volkdev_qnc_cannot_give_mod_to_base_groups'));
+            }
 
             $oldEntries = $this->finder('XF:PermissionEntryContent')
                 ->where('content_type', 'node')
@@ -418,7 +428,7 @@ class QuickNode extends AbstractController
                 ->fetch();
 
             $oldPerms = [];
-            foreach ($oldEntries AS $entry) {
+            foreach ($oldEntries as $entry) {
                 $oldPerms[$entry->permission_group_id][$entry->permission_id] = $entry->permission_value;
             }
 
@@ -433,8 +443,17 @@ class QuickNode extends AbstractController
                 $visitor->user_id,
                 $node->node_id,
                 'perm_change',
-                ['group_id' => $groupId, 'perms' => $oldPerms, 'node_title' => $node->title],
-                ['group_id' => $groupId, 'perms' => $permissions, 'node_title' => $node->title]
+                [
+                    'group_id' => $groupId, 
+                    'perms' => $oldPerms, 
+                    'node_title' => $node->title
+                ],
+                [
+                    'group_id' => $groupId, 
+                    'perms' => $permissions, 
+                    'node_title' => $node->title,
+                    'templates' => $selectedTemplateNames
+                ]
             );
 
             return $this->redirect(
@@ -451,22 +470,27 @@ class QuickNode extends AbstractController
             ->fetch();
 
         $currentPerms = [];
-        foreach ($entries AS $entry) {
+        foreach ($entries as $entry) {
             $currentPerms[$entry->permission_group_id][$entry->permission_id] = $entry->permission_value;
         }
 
         $viewState = $currentPerms['general']['viewNode'] ?? 'reset';
         $postState = $currentPerms['forum']['postThread'] ?? 'reset';
-        $isMod = (!empty($currentPerms['forum']['manageAnyThread']) && $currentPerms['forum']['manageAnyThread'] === 'content_allow');
-        $isAdmin = (!empty($currentPerms['forum']['editAnyPost']) && $currentPerms['forum']['editAnyPost'] === 'content_allow');
+
+        $activeTemplateIds = [];
+        foreach ($applicableTemplates as $template) {
+            if ($template->matchesPermissions($currentPerms)) {
+                $activeTemplateIds[] = $template->template_id;
+            }
+        }
 
         return $this->view('VolkDev\QuickNode:QuickNode\PermissionsEdit', 'volkdev_qn_permissions_edit', [
             'node' => $node,
             'userGroup' => $targetGroup,
             'viewState' => $viewState,
             'postState' => $postState,
-            'isMod' => $isMod,
-            'isAdmin' => $isAdmin
+            'templates' => $applicableTemplates,
+            'activeTemplateIds' => $activeTemplateIds
         ]);
     }
 }

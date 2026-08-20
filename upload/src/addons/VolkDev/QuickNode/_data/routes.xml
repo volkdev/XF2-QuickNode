@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <routes>
   <route route_type="admin" route_prefix="qnc-logs" controller="VolkDev\QuickNode:Log"/>
+  <route route_type="admin" route_prefix="qnc-perm-templates" controller="VolkDev\QuickNode:PermTemplate"/>
   <route route_type="public" route_prefix="quick-node" controller="VolkDev\QuickNode:QuickNode"/>
 </routes>

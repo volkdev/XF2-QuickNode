@@ -46,6 +46,83 @@ class Setup extends AbstractSetup
         });
     }
 
+    public function installStep4()
+    {
+        $this->schemaManager()->createTable('xf_volkdev_qnc_perm_template', function (Create $table) {
+            $table->addColumn('template_id', 'int')->autoIncrement();
+            $table->addColumn('title', 'varchar', 100);
+            $table->addColumn('description', 'text')->nullable();
+            $table->addColumn('display_order', 'int')->setDefault(1);
+            $table->addColumn('active', 'tinyint')->setDefault(1);
+            $table->addColumn('node_scope', 'varchar', 25)->setDefault('all');
+            $table->addColumn('node_ids', 'blob')->nullable();
+            $table->addColumn('user_group_scope', 'varchar', 25)->setDefault('all');
+            $table->addColumn('user_group_ids', 'blob')->nullable();
+            $table->addColumn('permissions', 'mediumblob')->nullable();
+            $table->addColumn('admin_only', 'tinyint')->setDefault(0);
+            $table->addKey('display_order');
+        });
+
+        $this->seedDefaultTemplates();
+    }
+
+    protected function seedDefaultTemplates()
+    {
+        $modPerms = [
+            'forum' => [
+                'manageAnyThread' => 'content_allow',
+                'deleteAnyThread' => 'content_allow',
+                'deleteAny' => 'content_allow',
+                'lockUnlockThread' => 'content_allow',
+                'stickUnstickThread' => 'content_allow',
+                'inlineMod' => 'content_allow',
+            ]
+        ];
+
+        $adminPerms = [
+            'forum' => [
+                'manageAnyThread' => 'content_allow',
+                'deleteAnyThread' => 'content_allow',
+                'deleteAny' => 'content_allow',
+                'lockUnlockThread' => 'content_allow',
+                'stickUnstickThread' => 'content_allow',
+                'inlineMod' => 'content_allow',
+                'editAnyPost' => 'content_allow',
+                'warn' => 'content_allow',
+                'viewDeleted' => 'content_allow',
+                'viewModerated' => 'content_allow',
+                'undelete' => 'content_allow',
+                'approveUnapprove' => 'content_allow',
+            ]
+        ];
+
+        $this->db()->insert('xf_volkdev_qnc_perm_template', [
+            'title' => 'Права модератора',
+            'description' => 'Мягкое удаление, перемещение, закрепление, открытие/закрытие тем.',
+            'display_order' => 1,
+            'active' => 1,
+            'node_scope' => 'all',
+            'node_ids' => json_encode([]),
+            'user_group_scope' => 'all',
+            'user_group_ids' => json_encode([]),
+            'permissions' => json_encode($modPerms),
+            'admin_only' => 0
+        ]);
+
+        $this->db()->insert('xf_volkdev_qnc_perm_template', [
+            'title' => 'Права администратора',
+            'description' => 'Все права модератора, плюс выдача предупреждений и редактирование чужих сообщений.',
+            'display_order' => 2,
+            'active' => 1,
+            'node_scope' => 'all',
+            'node_ids' => json_encode([]),
+            'user_group_scope' => 'all',
+            'user_group_ids' => json_encode([]),
+            'permissions' => json_encode($adminPerms),
+            'admin_only' => 1
+        ]);
+    }
+
     public function upgrade3000470Step1()
     {
         $this->installStep2();
@@ -65,6 +142,11 @@ class Setup extends AbstractSetup
         });
     }
 
+    public function upgrade3030570Step1()
+    {
+        $this->installStep4();
+    }
+
     public function uninstallStep1()
     {
         $this->schemaManager()->dropTable('xf_volkdev_qnc_log');
@@ -76,6 +158,7 @@ class Setup extends AbstractSetup
             $table->dropColumns(['qnc_protected']);
         });
     }
+
     public function uninstallStep3()
     {
         $this->schemaManager()->alterTable('xf_node', function (Alter $table) {
@@ -83,4 +166,8 @@ class Setup extends AbstractSetup
         });
     }
 
+    public function uninstallStep4()
+    {
+        $this->schemaManager()->dropTable('xf_volkdev_qnc_perm_template');
+    }
 }

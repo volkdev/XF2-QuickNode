@@ -339,7 +339,7 @@
         </div>
     </div>
 </div>]]></template>
-  <template type="public" title="volkdev_qn_permissions_edit" version_id="3030470" version_string="3.3.4"><![CDATA[<xf:title>{{ phrase('volkdev_qnc_permissions_edit_title', {'title': $userGroup.title}) }}</xf:title>
+  <template type="public" title="volkdev_qn_permissions_edit" version_id="3030570" version_string="3.3.5"><![CDATA[<xf:title>{{ phrase('volkdev_qnc_permissions_edit_title', {'title': $userGroup.title}) }}</xf:title>
 
 <xf:form action="{{ link('quick-node/permissions/edit', null, {'node_id': $node.node_id, 'user_group_id': $userGroup.user_group_id}) }}" ajax="true" class="block">
     <div class="block-container">
@@ -359,12 +359,15 @@
                 <xf:explain>{{ phrase('volkdev_qnc_perm_post_explain') }}</xf:explain>
             </xf:radiorow>
 
-            <hr class="formRowSep" />
+            <xf:if is="$templates is not empty">
+                <hr class="formRowSep" />
 
-            <xf:checkboxrow label="{{ phrase('volkdev_qnc_perm_moderation') }}">
-                <xf:option name="is_mod" checked="{$isMod}" label="{{ phrase('volkdev_qnc_perm_moderator') }}" hint="{{ phrase('volkdev_qnc_perm_moderator_hint') }}" />
-                <xf:option name="is_admin" checked="{$isAdmin}" label="{{ phrase('volkdev_qnc_perm_administrator') }}" hint="{{ phrase('volkdev_qnc_perm_administrator_hint') }}" />
-            </xf:checkboxrow>
+                <xf:checkboxrow label="{{ phrase('volkdev_qnc_perm_templates') }}">
+                    <xf:foreach loop="$templates" value="$template">
+                        <xf:option name="templates[]" value="{$template.template_id}" checked="{{ in_array($template.template_id, $activeTemplateIds) }}" label="{$template.title}" hint="{$template.description}" />
+                    </xf:foreach>
+                </xf:checkboxrow>
+            </xf:if>
 
         </div>
         <xf:submitrow submit="{{ phrase('volkdev_qnc_save_permissions') }}" icon="save" />
@@ -391,6 +394,165 @@
                 <div class="block-row">{{ phrase('volkdev_qnc_no_groups_available') }}</div>
             </xf:if>
         </div>
+    </div>
+</div>]]></template>
+  <template type="admin" title="volkdev_qnc_perm_template_delete" version_id="3030570" version_string="3.3.5"><![CDATA[<xf:title>{{ phrase('volkdev_qnc_confirm_deletion_perm_template') }}</xf:title>
+
+<xf:form action="{{ link('qnc-perm-templates/delete', $template) }}" ajax="true" class="block">
+    <div class="block-container">
+        <div class="block-body">
+            <xf:inforow>
+                {{ phrase('volkdev_qnc_confirm_delete_template_explain', {'title': $template.title}) }}
+            </xf:inforow>
+        </div>
+        <xf:submitrow submit="{{ phrase('volkdev_qnc_btn_delete') }}" icon="delete" />
+    </div>
+</xf:form>]]></template>
+  <template type="admin" title="volkdev_qnc_perm_template_edit" version_id="3030570" version_string="3.3.5"><![CDATA[<xf:if is="$template.isInsert()">
+    <xf:title>{{ phrase('volkdev_qnc_add_perm_template') }}</xf:title>
+<xf:else />
+    <xf:title>{{ phrase('volkdev_qnc_edit_perm_template', {'title': $template.title}) }}</xf:title>
+</xf:if>
+
+<xf:pageaction is="!$template.isInsert()">
+    <xf:button href="{{ link('qnc-perm-templates/delete', $template) }}" icon="delete" overlay="true" />
+</xf:pageaction>
+
+<xf:form action="{{ link('qnc-perm-templates/save', $template) }}" ajax="true" class="block">
+    <div class="block-container">
+        <div class="block-body">
+            <xf:textboxrow name="title" value="{$template.title}" label="{{ phrase('title') }}" required="required" />
+            <xf:textarearow name="description" value="{$template.description}" label="{{ phrase('description') }}" autosize="true" explain="{{ phrase('volkdev_qnc_perm_template_desc_explain') }}" />
+
+            <xf:numberboxrow name="display_order" value="{$template.display_order}" min="0" label="{{ phrase('display_order') }}" />
+            
+            <xf:checkboxrow>
+                <xf:option name="active" value="1" checked="{$template.active}" label="{{ phrase('volkdev_qnc_active') }}" />
+                <xf:option name="admin_only" value="1" checked="{$template.admin_only}" label="{{ phrase('volkdev_qnc_admin_only_apply') }}" explain="{{ phrase('volkdev_qnc_admin_only_apply_explain') }}" />
+            </xf:checkboxrow>
+
+            <hr class="formRowSep" />
+
+            <!-- Applicable Nodes -->
+            <xf:radiorow name="node_scope" value="{$template.node_scope}" label="{{ phrase('volkdev_qnc_applicable_nodes') }}">
+                <xf:option value="all" label="{{ phrase('volkdev_qnc_all_nodes') }}" />
+                <xf:option value="selected" label="{{ phrase('volkdev_qnc_specified_nodes_only') }}">
+                    <xf:dependent>
+                        <div class="inputChoices-dependencies" style="max-height: 250px; overflow-y: auto; padding: 5px; border: 1px solid #dfdfdf; border-radius: 4px;">
+                            <xf:checkbox name="node_ids[]">
+                                <xf:foreach loop="$nodeTree.getFlattened()" value="$treeEntry">
+                                    <xf:option value="{$treeEntry.record.node_id}" checked="{{ in_array($treeEntry.record.node_id, $template.node_ids) }}">
+                                        {{ repeat('--', $treeEntry.depth) }} {$treeEntry.record.title}
+                                    </xf:option>
+                                </xf:foreach>
+                            </xf:checkbox>
+                        </div>
+                    </xf:dependent>
+                </xf:option>
+            </xf:radiorow>
+
+            <!-- Applicable User Groups -->
+            <xf:radiorow name="user_group_scope" value="{$template.user_group_scope}" label="{{ phrase('volkdev_qnc_applicable_groups') }}">
+                <xf:option value="all" label="{{ phrase('volkdev_qnc_all_user_groups') }}" />
+                <xf:option value="selected" label="{{ phrase('volkdev_qnc_specified_user_groups_only') }}">
+                    <xf:dependent>
+                        <div class="inputChoices-dependencies" style="max-height: 200px; overflow-y: auto; padding: 5px; border: 1px solid #dfdfdf; border-radius: 4px;">
+                            <xf:checkbox name="user_group_ids[]">
+                                <xf:foreach loop="$userGroups" value="$userGroup">
+                                    <xf:option value="{$userGroup.user_group_id}" checked="{{ in_array($userGroup.user_group_id, $template.user_group_ids) }}">
+                                        {$userGroup.title}
+                                    </xf:option>
+                                </xf:foreach>
+                            </xf:checkbox>
+                        </div>
+                    </xf:dependent>
+                </xf:option>
+            </xf:radiorow>
+
+            <hr class="formRowSep" />
+
+            <div class="block-formLoop">
+                <h3 class="block-formLoop-title">{{ phrase('permissions') }}</h3>
+                <xf:foreach loop="$availablePermissions" key="$groupId" value="$permGroup">
+                    <xf:formrow label="{$permGroup.title}">
+                        <xf:foreach loop="$permGroup.permissions" key="$permId" value="$permTitle">
+                            <div style="margin-bottom: 4px;">
+                                <label class="iconic iconic--checkbox">
+                                    <input type="checkbox" name="permissions[{$groupId}][{$permId}]" value="content_allow" {{ $template.permissions.{$groupId}.{$permId} == 'content_allow' ? 'checked="checked"' : '' }} />
+                                    <i aria-hidden="true"></i>
+                                    <span class="iconic-label">{$permTitle}</span>
+                                </label>
+                            </div>
+                        </xf:foreach>
+                    </xf:formrow>
+                </xf:foreach>
+            </div>
+
+        </div>
+        <xf:submitrow submit="{{ phrase('volkdev_qnc_btn_save') }}" icon="save" />
+    </div>
+</xf:form>]]></template>
+  <template type="admin" title="volkdev_qnc_perm_template_list" version_id="3030570" version_string="3.3.5"><![CDATA[<xf:title>{{ phrase('volkdev_qnc_perm_templates') }}</xf:title>
+
+<xf:pageaction>
+    <xf:button href="{{ link('qnc-perm-templates/add') }}" icon="add">{{ phrase('volkdev_qnc_add_perm_template') }}</xf:button>
+</xf:pageaction>
+
+<div class="block">
+    <div class="block-container">
+        <xf:if is="$templates is not empty">
+            <xf:datalist>
+                <xf:datarow rowtype="header">
+                    <xf:cell>{{ phrase('title') }}</xf:cell>
+                    <xf:cell>{{ phrase('volkdev_qnc_applicable_nodes') }}</xf:cell>
+                    <xf:cell>{{ phrase('volkdev_qnc_applicable_groups') }}</xf:cell>
+                    <xf:cell>{{ phrase('volkdev_qnc_admin_only_badge') }}</xf:cell>
+                    <xf:cell class="dataList-cell--min">&nbsp;</xf:cell>
+                    <xf:cell class="dataList-cell--min">&nbsp;</xf:cell>
+                </xf:datarow>
+                <xf:foreach loop="$templates" value="$template">
+                    <xf:datarow>
+                        <xf:cell>
+                            <a href="{{ link('qnc-perm-templates/edit', $template) }}"><strong>{$template.title}</strong></a>
+                            <xf:if is="$template.description">
+                                <div class="u-muted" style="font-size: 11px;">{$template.description}</div>
+                            </xf:if>
+                        </xf:cell>
+                        <xf:cell>
+                            <xf:if is="$template.node_scope == 'all'">
+                                <span class="label label--primary">{{ phrase('volkdev_qnc_all_nodes') }}</span>
+                            <xf:else />
+                                <span class="label label--accent">{{ count($template.node_ids) }} {{ phrase('nodes') }}</span>
+                            </xf:if>
+                        </xf:cell>
+                        <xf:cell>
+                            <xf:if is="$template.user_group_scope == 'all'">
+                                <span class="label label--primary">{{ phrase('volkdev_qnc_all_user_groups') }}</span>
+                            <xf:else />
+                                <span class="label label--accent">{{ count($template.user_group_ids) }} {{ phrase('user_groups') }}</span>
+                            </xf:if>
+                        </xf:cell>
+                        <xf:cell>
+                            <xf:if is="$template.admin_only">
+                                <span class="label label--red">{{ phrase('yes') }}</span>
+                            <xf:else />
+                                <span class="u-muted">{{ phrase('no') }}</span>
+                            </xf:if>
+                        </xf:cell>
+                        <xf:toggle cell="true" href="{{ link('qnc-perm-templates/toggle') }}"
+                            name="active"
+                            rowid="template_id-{$template.template_id}"
+                            data-key="template_id"
+                            data-value="{$template.template_id}"
+                            selected="{$template.active}"
+                            tooltip="{{ phrase('volkdev_qnc_enable_disable_template') }}" />
+                        <xf:delete cell="true" href="{{ link('qnc-perm-templates/delete', $template) }}" />
+                    </xf:datarow>
+                </xf:foreach>
+            </xf:datalist>
+        <xf:else />
+            <div class="block-body block-row">{{ phrase('no_items_have_been_created_yet') }}</div>
+        </xf:if>
     </div>
 </div>]]></template>
 </templates>

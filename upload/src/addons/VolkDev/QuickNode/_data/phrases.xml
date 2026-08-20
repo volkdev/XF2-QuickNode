@@ -2,6 +2,7 @@
 <phrases>
   <!-- Admin navigation & permissions -->
   <phrase title="admin_navigation.volkdevQncLogs" version_id="1010070" version_string="1.1.0"><![CDATA[Quick Node Creator Log]]></phrase>
+  <phrase title="admin_navigation.volkdevQncPermTemplates" version_id="3030570" version_string="3.3.5"><![CDATA[Quick Node Permission Templates]]></phrase>
   <phrase title="admin_permission.qncManageLogs" version_id="1010070" version_string="1.1.0"><![CDATA[Manage Quick Node Creator logs]]></phrase>
 
   <!-- Alerts -->
@@ -121,6 +122,46 @@
   <phrase title="volkdev_qnc_configure_permissions" version_id="1010070" version_string="1.1.0"><![CDATA[Configure permissions]]></phrase>
   <phrase title="volkdev_qnc_edit_permissions" version_id="3030470" version_string="3.3.4"><![CDATA[Edit permissions]]></phrase>
   <phrase title="volkdev_qnc_no_groups_available" version_id="1010070" version_string="1.1.0"><![CDATA[No groups available to manage.]]></phrase>
+
+  <!-- Permission templates -->
+  <phrase title="volkdev_qnc_perm_templates" version_id="3030570" version_string="3.3.5"><![CDATA[Permission templates]]></phrase>
+  <phrase title="volkdev_qnc_add_perm_template" version_id="3030570" version_string="3.3.5"><![CDATA[Add permission template]]></phrase>
+  <phrase title="volkdev_qnc_edit_perm_template" version_id="3030570" version_string="3.3.5"><![CDATA[Edit permission template: {title}]]></phrase>
+  <phrase title="volkdev_qnc_confirm_deletion_perm_template" version_id="3030570" version_string="3.3.5"><![CDATA[Confirm deletion of permission template]]></phrase>
+  <phrase title="volkdev_qnc_confirm_delete_template_explain" version_id="3030570" version_string="3.3.5"><![CDATA[Please confirm that you want to delete the following permission template: {title}]]></phrase>
+  <phrase title="volkdev_qnc_active" version_id="3030570" version_string="3.3.5"><![CDATA[Active]]></phrase>
+  <phrase title="volkdev_qnc_applicable_nodes" version_id="3030570" version_string="3.3.5"><![CDATA[Applicable nodes]]></phrase>
+  <phrase title="volkdev_qnc_all_nodes" version_id="3030570" version_string="3.3.5"><![CDATA[All nodes]]></phrase>
+  <phrase title="volkdev_qnc_specified_nodes_only" version_id="3030570" version_string="3.3.5"><![CDATA[Specified nodes only]]></phrase>
+  <phrase title="volkdev_qnc_applicable_groups" version_id="3030570" version_string="3.3.5"><![CDATA[Applicable user groups]]></phrase>
+  <phrase title="volkdev_qnc_all_user_groups" version_id="3030570" version_string="3.3.5"><![CDATA[All user groups]]></phrase>
+  <phrase title="volkdev_qnc_specified_user_groups_only" version_id="3030570" version_string="3.3.5"><![CDATA[Specified user groups only]]></phrase>
+  <phrase title="volkdev_qnc_admin_only_badge" version_id="3030570" version_string="3.3.5"><![CDATA[Admin only]]></phrase>
+  <phrase title="volkdev_qnc_admin_only_apply" version_id="3030570" version_string="3.3.5"><![CDATA[Only administrators can apply this template]]></phrase>
+  <phrase title="volkdev_qnc_admin_only_apply_explain" version_id="3030570" version_string="3.3.5"><![CDATA[If enabled, regular moderators using Quick Node Creator on the front-end will not be able to assign this template.]]></phrase>
+  <phrase title="volkdev_qnc_enable_disable_template" version_id="3030570" version_string="3.3.5"><![CDATA[Enable / disable template]]></phrase>
+  <phrase title="volkdev_qnc_perm_template_desc_explain" version_id="3030570" version_string="3.3.5"><![CDATA[Explain what this template does. This text will be shown as a hint under the template title on the front-end.]]></phrase>
+  <phrase title="volkdev_qnc_perm_view_others" version_id="3030570" version_string="3.3.5"><![CDATA[View threads by others]]></phrase>
+  <phrase title="volkdev_qnc_perm_view_content" version_id="3030570" version_string="3.3.5"><![CDATA[View thread content]]></phrase>
+  <phrase title="volkdev_qnc_perm_post_thread" version_id="3030570" version_string="3.3.5"><![CDATA[Post new threads]]></phrase>
+  <phrase title="volkdev_qnc_perm_post_reply" version_id="3030570" version_string="3.3.5"><![CDATA[Post replies]]></phrase>
+  <phrase title="volkdev_qnc_perm_delete_own_post" version_id="3030570" version_string="3.3.5"><![CDATA[Delete own posts]]></phrase>
+  <phrase title="volkdev_qnc_perm_edit_own_post" version_id="3030570" version_string="3.3.5"><![CDATA[Edit own posts]]></phrase>
+  <phrase title="volkdev_qnc_perm_upload_attachment" version_id="3030570" version_string="3.3.5"><![CDATA[Upload attachments]]></phrase>
+  <phrase title="volkdev_qnc_perm_react" version_id="3030570" version_string="3.3.5"><![CDATA[React to posts]]></phrase>
+  <phrase title="volkdev_qnc_perm_manage_any_thread" version_id="3030570" version_string="3.3.5"><![CDATA[Manage any thread (edit title, prefix, etc.)]]></phrase>
+  <phrase title="volkdev_qnc_perm_delete_any_thread" version_id="3030570" version_string="3.3.5"><![CDATA[Delete any thread]]></phrase>
+  <phrase title="volkdev_qnc_perm_delete_any_post" version_id="3030570" version_string="3.3.5"><![CDATA[Delete any post]]></phrase>
+  <phrase title="volkdev_qnc_perm_lock_unlock" version_id="3030570" version_string="3.3.5"><![CDATA[Lock / unlock threads]]></phrase>
+  <phrase title="volkdev_qnc_perm_stick_unstick" version_id="3030570" version_string="3.3.5"><![CDATA[Stick / unstick threads]]></phrase>
+  <phrase title="volkdev_qnc_perm_inline_mod" version_id="3030570" version_string="3.3.5"><![CDATA[Use inline moderation]]></phrase>
+  <phrase title="volkdev_qnc_perm_edit_any_post" version_id="3030570" version_string="3.3.5"><![CDATA[Edit any post]]></phrase>
+  <phrase title="volkdev_qnc_perm_warn" version_id="3030570" version_string="3.3.5"><![CDATA[Give warnings]]></phrase>
+  <phrase title="volkdev_qnc_perm_view_deleted" version_id="3030570" version_string="3.3.5"><![CDATA[View deleted threads / posts]]></phrase>
+  <phrase title="volkdev_qnc_perm_view_moderated" version_id="3030570" version_string="3.3.5"><![CDATA[View moderated / unapproved threads]]></phrase>
+  <phrase title="volkdev_qnc_perm_undelete" version_id="3030570" version_string="3.3.5"><![CDATA[Undelete threads / posts]]></phrase>
+  <phrase title="volkdev_qnc_perm_approve_unapprove" version_id="3030570" version_string="3.3.5"><![CDATA[Approve / unapprove threads]]></phrase>
+  <phrase title="volkdev_qnc_perm_hard_delete_thread" version_id="3030570" version_string="3.3.5"><![CDATA[Hard delete any thread]]></phrase>
 
   <!-- Permission values -->
   <phrase title="volkdev_qnc_perm_view" version_id="1010070" version_string="1.1.0"><![CDATA[View node]]></phrase>
